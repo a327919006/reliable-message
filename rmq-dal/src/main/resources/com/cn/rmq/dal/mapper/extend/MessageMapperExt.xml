@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.rmq.dal.mapper.MessageMapper">
+
+    <sql id="condition">
+        <if test="id != null and id != ''">
+            AND id = #{messageId,jdbcType=CHAR}
+        </if>
+        <if test="consumerQueue != null and consumerQueue != ''">
+            AND consumer_queue = #{consumerQueue,jdbcType=VARCHAR}
+        </if>
+        <if test="alreadyDead != null">
+            AND already_dead = #{alreadyDead,jdbcType=TINYINT}
+        </if>
+    </sql>
+
+    <update id="addResendTimes" parameterType="java.lang.String">
+        UPDATE t_message
+        SET resend_times = resend_times + 1,
+          update_time = now()
+        WHERE id = #{messageId,jdbcType=CHAR}
+    </update>
+
+    <select id="count" parameterType="Message">
+        SELECT count(1)
+        FROM t_message
+        WHERE 1=1
+        <include refid="condition"/>
+    </select>
+
+    <select id="list" parameterType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        FROM t_message
+        WHERE 1=1
+        <include refid="condition"/>
+    </select>
+
+    <select id="cmsList" parameterType="com.cn.rmq.api.model.dto.cms.message.CmsMessageListReq">
+        SELECT
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        FROM t_message
+        WHERE 1=1
+        <include refid="condition"/>
+    </select>
+</mapper>

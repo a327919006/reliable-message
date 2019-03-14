@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: @profileActive@
+
+
+mybatis:
+  typeAliasesPackage: com.cn.rmq.api.model.po
+  mapperLocations: classpath:com/cn/rmq/dal/mapper/**/*.xml
+  configuration:
+    cache-enabled: true
