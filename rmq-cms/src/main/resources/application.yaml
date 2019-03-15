@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: @profileActive@
+  freemarker:
+    template-loader-path: classpath:/webapp/templates/
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
+  resources:
+    static-locations: classpath:/webapp/static/

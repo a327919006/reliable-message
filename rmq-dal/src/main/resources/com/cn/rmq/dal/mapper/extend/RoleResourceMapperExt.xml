@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.rmq.dal.mapper.RoleResourceMapper">
+
+    <!--
+        根据角色Id获取角色资源记录列表
+    -->
+    <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_role_resource
+        WHERE
+        role_id = #{roleId}
+        AND resource_id IN
+        (
+        SELECT resource_id
+        FROM t_sys_resource
+        WHERE STATUS = 1
+        )
+    </select>
+
+    <!--
+        删除多个主键对应的角色资源记录
+     -->
+    <delete id="deleteByRoleIds" parameterType="java.util.List">
+        DELETE FROM t_role_resource WHERE role_id IN
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+    <!--
+        删除多个主键对应的角色资源记录
+     -->
+    <delete id="deleteByResourceIds" parameterType="java.util.List">
+        DELETE FROM t_role_resource WHERE resource_id IN
+        <foreach collection="list" item="resourceId" open="(" separator="," close=")">
+            #{resourceId}
+        </foreach>
+    </delete>
+</mapper>

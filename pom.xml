@@ -12,6 +12,7 @@
         <module>rmq-api</module>
         <module>rmq-dal</module>
         <module>rmq-service</module>
+        <module>rmq-cms</module>
     </modules>
 
     <properties>

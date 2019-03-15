@@ -1,0 +1,13 @@
+server:
+  port: 10082
+  servlet:
+    context-path: /rmq-cms
+
+# dubbo配置
+dubbo:
+  application:
+    name: rmq-cms
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  consumer:
+    check: false

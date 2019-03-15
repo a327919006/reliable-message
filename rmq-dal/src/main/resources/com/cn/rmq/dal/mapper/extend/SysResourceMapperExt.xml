@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.rmq.dal.mapper.SysResourceMapper" >
+
+
+  <resultMap id="ResultDTOMap" type="com.cn.rmq.api.model.dto.cms.system.SysResourceDTO">
+    <id column="resource_id" property="resourceId" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="url" property="url" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="TINYINT"/>
+    <result column="icon" property="icon" jdbcType="VARCHAR"/>
+    <result column="priority" property="priority" jdbcType="INTEGER"/>
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+    <result column="parent_name" property="parentName" jdbcType="VARCHAR"/>
+    <result column="permission" property="permission" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="TINYINT"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+  </resultMap>
+
+  <!--
+      查询用户菜单
+  -->
+  <select id="selectMenuByUserId" resultMap="ResultDTOMap" parameterType="java.lang.String">
+    SELECT
+    r1.*, r2.name AS parent_name
+    FROM t_sys_resource r1
+    LEFT JOIN t_sys_resource r2
+    ON r1.parent_id = r2.resource_id
+    WHERE r1.status = 1 AND r1.resource_id IN(
+    SELECT resource_id FROM t_role_resource WHERE role_id IN (
+    SELECT role_id FROM t_user_role WHERE sys_user_id= #{sysUserId}) AND r1.type=0)
+    ORDER BY priority ASC
+  </select>
+
+  <!--
+      获取用户资源
+  -->
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT r1.* FROM t_sys_resource r1
+    LEFT JOIN t_sys_resource r2 ON r1.parent_id = r2.resource_id
+    WHERE r1.resource_id IN(
+    SELECT resource_id FROM t_role_resource where t_role_resource.role_id IN (
+    SELECT role_id FROM t_user_role WHERE t_user_role.sys_user_id= #{sysUserId}))
+  </select>
+
+
+  <!--
+      根据查询条件获取记录分页
+  -->
+  <select id="selectByConditionPage" resultMap="ResultDTOMap" parameterType="SysResource">
+    SELECT r1.*, r2.name AS parent_name
+    FROM t_sys_resource AS r1
+    LEFT JOIN t_sys_resource AS r2 ON r1.parent_id = r2.resource_id WHERE 1=1
+    <if test="resdto.permission != null and resdto.permission != '' and resdto.permission != 'null'">
+      AND r1.permission LIKE CONCAT ('%',#{resdto.permission,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="resdto.name != null and resdto.name != '' and resdto.name != 'null'">
+      AND r1.name LIKE CONCAT('%',#{resdto.name},'%')
+    </if>
+    <if test="resdto.url != null and resdto.url != '' and resdto.url != 'null'">
+      AND r1.url LIKE CONCAT('%',#{resdto.url},'%')
+    </if>
+    <if test="resdto.type != null">
+      AND r1.type = #{resdto.type}
+    </if>
+    <if test="resdto.parentId != null and resdto.parentId != 'null'">
+      AND r1.parent_id = #{resdto.parentId}
+    </if>
+    <if test="resdto.status != null">
+      AND r1.status = #{resdto.status}
+    </if>
+  </select>
+
+  <!--
+      根据查询条件获取记录列表
+  -->
+  <select id="selectByConditionAll" resultMap="ResultDTOMap" parameterType="SysResource">
+    SELECT r1.*, r2.name AS parent_name
+    FROM t_sys_resource AS r1
+    LEFT JOIN t_sys_resource AS r2 ON r1.parent_id = r2.resource_id WHERE 1=1
+    <if test="name != null and name != '' and name != 'null'">
+      AND r1.name LIKE CONCAT('%',#{name},'%')
+    </if>
+    <if test="url != null and url != '' and url != 'null'">
+      AND r1.url LIKE CONCAT('%',#{url},'%')
+    </if>
+    <if test="type != null">
+      AND r1.type = #{type}
+    </if>
+    <if test="parentId != null and parentId != 'null'">
+      AND r1.parent_id = #{parentId}
+    </if>
+    <if test="status != null">
+      AND r1.status = #{status}
+    </if>
+  </select>
+
+  <!--
+      根据查询条件获取记录数
+  -->
+  <select id="countByCondition" resultType="java.lang.Integer" parameterType="SysResource">
+    SELECT count(*) from t_sys_resource where 1=1
+    <if test="permission != null and permission != '' and permission != 'null'">
+      AND permission LIKE CONCAT ('%',#{permission,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="name != null and name != '' and name != 'null'">
+      and name like CONCAT('%',#{name},'%')
+    </if>
+    <if test="url != null and url != '' and url != 'null'">
+      and url like CONCAT('%',#{url},'%')
+    </if>
+    <if test="type != null">
+      and type = #{type}
+    </if>
+    <if test="parentId != null and parentId != 'null'">
+      and parent_id = #{parentId}
+    </if>
+    <if test="status != null">
+      and status = #{status}
+    </if>
+  </select>
+
+  <!--
+      查询用户菜单
+  -->
+  <select id="selectByType" resultMap="ResultDTOMap" parameterType="java.lang.Byte">
+    SELECT
+    r1.*, r2.name AS parent_name
+    FROM t_sys_resource r1
+    LEFT JOIN t_sys_resource r2
+    ON
+    r1.parent_id = r2.resource_id
+    WHERE r1.type= #{type}
+  </select>
+
+  <!--
+      查询用户菜单
+  -->
+  <select id="selectByName" resultMap="ResultDTOMap" parameterType="java.lang.String">
+    SELECT
+    r1.*, r2.name AS parent_name
+    FROM t_sys_resource r1
+    LEFT JOIN t_sys_resource r2
+    ON
+    r1.parent_id = r2.resource_id
+    WHERE r1.name= #{name}
+  </select>
+
+  <!--
+      删除多个主键对应的资源记录
+   -->
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.List">
+    DELETE FROM t_sys_resource WHERE resource_id IN
+    <foreach collection="list" item="resourceId" open="(" separator="," close=")">
+      #{resourceId}
+    </foreach>
+  </delete>
+
+  <select id="selectByImsUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT r1.* FROM t_sys_resource r1
+    LEFT JOIN t_sys_resource r2 ON r1.parent_id = r2.resource_id
+    WHERE r1.resource_id IN(
+    SELECT resource_id FROM t_role_resource where t_role_resource.role_id IN (
+    SELECT role_id FROM t_ims_user_role WHERE t_ims_user_role.user_id= #{imsUserId}))
+  </select>
+
+
+  <select id="selectMenuByImsUserId" resultMap="ResultDTOMap" parameterType="java.lang.String">
+    SELECT
+    r1.*, r2.name AS parent_name
+    FROM t_sys_resource r1
+    LEFT JOIN t_sys_resource r2
+    ON r1.parent_id = r2.resource_id
+    WHERE r1.status = 1 AND r1.resource_id IN(
+    SELECT resource_id FROM t_role_resource WHERE role_id IN (
+    SELECT role_id FROM t_ims_user_role WHERE user_id= #{imsUserId}) AND r1.type=0)
+    ORDER BY priority ASC
+  </select>
+
+
+</mapper>

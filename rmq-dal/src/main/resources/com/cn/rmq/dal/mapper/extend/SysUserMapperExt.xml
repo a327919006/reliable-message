@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.rmq.dal.mapper.SysUserMapper" >
+
+  <resultMap id="ResultDTOMap" type="com.cn.rmq.api.model.dto.cms.system.SysUserDTO" >
+    <id column="sys_user_id" property="sysUserId" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_status" property="userStatus" jdbcType="TINYINT" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!--
+      根据用户名和密码获取用户信息
+   -->
+  <select id="selectByUserNameAndPassWord" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_sys_user WHERE 1=1
+    AND user_name = #{username}
+    AND user_pwd = #{password}
+  </select>
+
+  <!--
+      根据用户名获取用户信息
+   -->
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_sys_user WHERE 1=1
+    AND user_name = #{username}
+  </select>
+
+  <!--
+      删除多个主键对应的用户记录
+   -->
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.List">
+    DELETE FROM t_sys_user WHERE sys_user_id IN
+    <foreach collection="list" item="userId" open="(" separator="," close=")">
+      #{userId}
+    </foreach>
+  </delete>
+
+  <!--
+      根据查询条件获取用户列表
+  -->
+  <select id="selectByConditionPage" resultMap="ResultDTOMap" parameterType="com.cn.rmq.api.model.dto.cms.system.SysUserDTO">
+    SELECT
+    sy.*
+    FROM t_sys_user AS sy
+    WHERE 1=1
+    <if test="model.userName != null and model.userName != '' and model.userName != 'null'">
+      AND sy.user_name LIKE CONCAT('%',#{model.userName},'%')
+    </if>
+    <if test="model.userPhone != null and model.userPhone != '' and model.userPhone != 'null'">
+      AND sy.user_phone LIKE CONCAT('%',#{model.userPhone},'%')
+    </if>
+    <if test="model.userEmail != null and model.userEmail != '' and model.userEmail != 'null'">
+      AND sy.user_email LIKE CONCAT('%',#{model.userEmail},'%')
+    </if>
+    <if test="model.userStatus != null">
+      AND sy.user_status = #{model.userStatus}
+    </if>
+    ORDER BY sy.update_time DESC
+  </select>
+
+  <!--
+      根据查询条件统计用户记录数
+  -->
+  <select id="countByCondition" resultType="java.lang.Integer" parameterType="com.cn.rmq.api.model.dto.cms.system.SysUserDTO">
+    SELECT
+    COUNT(*)
+    FROM t_sys_user AS sy
+    WHERE 1=1
+    <if test="userName != null and userName != '' and userName != 'null'">
+      AND sy.user_name LIKE CONCAT('%',#{userName},'%')
+    </if>
+    <if test="userPhone != null and userPhone != '' and userPhone != 'null'">
+      AND sy.user_phone LIKE CONCAT('%',#{userPhone},'%')
+    </if>
+    <if test="userEmail != null and userEmail != '' and userEmail != 'null'">
+      AND sy.user_email LIKE CONCAT('%',#{userEmail},'%')
+    </if>
+    <if test="userStatus != null">
+      AND sy.user_status = #{userStatus}
+    </if>
+  </select>
+</mapper>

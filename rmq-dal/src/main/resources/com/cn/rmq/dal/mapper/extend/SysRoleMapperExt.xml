@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.rmq.dal.mapper.SysRoleMapper" >
+
+  <!--
+      根据用户Id获取角色记录列表
+  -->
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    sr.*
+    FROM
+    t_user_role ur, t_sys_role sr
+    WHERE
+    ur.role_id = sr.role_id AND ur.sys_user_id = #{userId}
+  </select>
+
+  <!--
+      根据查询条件获取记录分页
+  -->
+  <select id="selectByConditionPage" resultType="com.cn.rmq.api.model.dto.cms.system.SysRoleDTO"
+          parameterType="com.cn.rmq.api.model.dto.cms.system.SysRoleDTO">
+    SELECT role_id AS roleId, role_name AS roleName, create_time AS createTime,
+    update_time AS updateTime, status
+    FROM t_sys_role WHERE 1=1
+    <if test="model.roleName != null and model.roleName != ''">
+      AND role_name LIKE CONCAT('%',#{model.roleName},'%')
+    </if>
+    <if test="model.status != null">
+      AND status = #{model.status}
+    </if>
+  </select>
+
+  <!--
+      根据查询条件获取记录分页
+  -->
+  <select id="selectByConditionAll" resultMap="BaseResultMap" parameterType="com.cn.rmq.api.model.dto.cms.system.SysRoleDTO">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_sys_role WHERE 1=1
+    <if test="roleName != null and roleName != ''">
+      AND role_name LIKE CONCAT('%',#{roleName},'%')
+    </if>
+    <if test="status != null">
+      AND status = #{status}
+    </if>
+  </select>
+
+  <!--
+      根据查询条件获取记录数
+  -->
+  <select id="countByCondition" resultType="java.lang.Integer" parameterType="com.cn.rmq.api.model.dto.cms.system.SysRoleDTO">
+    SELECT
+    COUNT(*)
+    FROM t_sys_role WHERE 1=1
+    <if test="roleName != null and roleName != ''">
+      AND role_name LIKE CONCAT('%',#{roleName},'%')
+    </if>
+    <if test="status != null">
+      AND status = #{status}
+    </if>
+  </select>
+
+  <!--
+      删除多个主键对应的角色记录
+   -->
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.List">
+    DELETE FROM t_sys_role WHERE role_id IN
+    <foreach collection="list" item="roleId" open="(" separator="," close=")">
+      #{roleId}
+    </foreach>
+  </delete>
+
+  <!--
+      根据角色名称获取角色信息
+   -->
+  <select id="selectByRoleName" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_sys_role WHERE 1=1
+    AND role_name = #{roleName}
+  </select>
+
+  <select id="selectByImsUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    sr.*
+    FROM
+    t_ims_user_role ur, t_sys_role sr
+    WHERE
+    ur.role_id = sr.role_id AND ur.user_id = #{userId}
+  </select>
+
+
+</mapper>
