@@ -27,4 +27,15 @@ public enum MessageStatusEnum {
     public byte getValue() {
         return value;
     }
+
+    public static String format(byte value){
+        switch (value){
+            case 0:
+                return "待确认";
+            case 1:
+                return "发送中";
+            default:
+                return "";
+        }
+    }
 }

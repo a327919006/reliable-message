@@ -54,15 +54,16 @@
             <artifactId>curator-recipes</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- shiro -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
-        </dependency>
-        <!--验证码工具-->
-        <dependency>
-            <groupId>org.patchca</groupId>
-            <artifactId>org.patchca</artifactId>
         </dependency>
 
         <!-- modules -->

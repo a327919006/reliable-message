@@ -1,7 +1,7 @@
 package com.cn.rmq.api.service;
 
 import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.message.CmsMessageListReq;
+import com.cn.rmq.api.model.dto.cms.message.CmsMessageListDto;
 import com.cn.rmq.api.model.po.Message;
 
 /**
@@ -76,5 +76,5 @@ public interface IMessageService extends IBaseService<Message, String> {
      * @param req 查询条件
      * @return 数据列表
      */
-    DataGrid listPage(CmsMessageListReq req);
+    DataGrid listPage(CmsMessageListDto req);
 }

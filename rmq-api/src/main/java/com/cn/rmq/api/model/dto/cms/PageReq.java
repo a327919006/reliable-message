@@ -15,6 +15,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class PageReq implements Serializable {
-    private int pageNum = 1;
-    private int pageSize = 10;
+    private int page = 1;
+    private int rows = 10;
 }

@@ -1,7 +1,8 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.model.dto.cms.message.CmsMessageListReq;
+import com.cn.rmq.api.model.dto.cms.message.CmsMessageListDto;
 import com.cn.rmq.api.model.po.Message;
+import com.cn.rmq.api.model.vo.cms.message.CmsMessageVo;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface MessageMapper extends BaseMapper<Message, String> {
      */
     int addResendTimes(String id);
 
-    List<Message> cmsList(CmsMessageListReq req);
+    List<CmsMessageVo> cmsListPage(CmsMessageListDto req);
 }

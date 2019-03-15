@@ -69,6 +69,12 @@
             <artifactId>curator-recipes</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- modules -->
         <dependency>
             <groupId>com.cn.rmq</groupId>
@@ -89,7 +95,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cn.rmq.service.Application</mainClass>
+                    <mainClass>com.cn.rmq.service.ServiceApplication</mainClass>
                     <outputDirectory>../target</outputDirectory>
                 </configuration>
                 <executions>

@@ -27,4 +27,15 @@ public enum AlreadyDeadEnum {
     public byte getValue() {
         return value;
     }
+
+    public static String format(Byte value) {
+        switch (value) {
+            case 0:
+                return "未死亡";
+            case 1:
+                return "已死亡";
+            default:
+                return "";
+        }
+    }
 }

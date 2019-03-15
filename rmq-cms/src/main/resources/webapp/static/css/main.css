@@ -1,0 +1,109 @@
+.header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    color: #E84900;
+    height: 50px;
+    background: none;
+    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+}
+
+.header-brand {
+    padding-top: 10px;
+    margin-left: 10px;
+}
+
+.header-brand a {
+    color: #E84900;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 10px;
+}
+.header-brand em{
+    font-style: normal;
+    font-size: 15px;
+}
+.header-user {
+    float: right;
+    padding-top: 15px;
+    padding-right: 40px;
+    font-size: 15px;
+}
+.header-user b{
+    font-weight: normal;
+}
+.header-user img{
+    vertical-align: middle;
+}
+body {
+    /*background: url('../images/background.gif') repeat #E9F0F4;*/
+    /*font-family: "Times New Roman", Georgia, Serif;*/
+}
+
+.login-box {
+    margin-top: 200px;
+    margin-left: 490px;
+    margin-right: 490px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    /*background: url("../images/login_form_bg.png") repeat;*/
+}
+
+.login-box form {
+    padding: 25px 60px 30px 60px;
+    width: 200px;
+}
+
+.login-box form input {
+    height: 20px;
+    width: 220px;
+    margin-left: 22px;
+}
+
+.login-box form a {
+    margin-left: 45px;
+}
+
+.login-box div {
+    margin-top: 20px;
+}
+
+.field-form {
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.field-form table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.field-form table td {
+    font-size: 12px;
+    border: 1px solid silver;
+    padding: 3px 7px 2px 7px;
+}
+
+.field-form table input {
+    width: 165px;
+    height: 22px;
+}
+
+.field-form table select {
+    height: 22px;
+}
+
+.required-field-title {
+    color: red;
+    /*font-family: Arial, Verdana, Sans-serif;*/
+}
+
+/* add by chennan 20160616 */
+.span_required{
+    color: red;
+}

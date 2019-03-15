@@ -13,6 +13,7 @@
         <module>rmq-dal</module>
         <module>rmq-service</module>
         <module>rmq-cms</module>
+        <module>rmq-cms-api</module>
     </modules>
 
     <properties>
@@ -62,6 +63,9 @@
 
         <!--guava-->
         <guava.version>27.0.1-jre</guava.version>
+
+        <!--shiro-->
+        <shiro.version>1.4.0</shiro.version>
 
         <!-- plugins -->
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
@@ -229,6 +233,13 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- shiro -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -3,19 +3,20 @@ package com.cn.rmq.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.message.CmsMessageListReq;
+import com.cn.rmq.api.model.dto.cms.message.CmsMessageListDto;
 import com.cn.rmq.api.model.enums.AlreadyDeadEnum;
 import com.cn.rmq.api.model.enums.MessageStatusEnum;
 import com.cn.rmq.api.model.po.Message;
+import com.cn.rmq.api.model.vo.cms.message.CmsMessageVo;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.dal.mapper.MessageMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -202,9 +203,9 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     }
 
     @Override
-    public DataGrid listPage(CmsMessageListReq req) {
-        Page<Object> pageInfo = PageHelper.startPage(req.getPageNum(), req.getPageSize());
-        List<Message> list = mapper.cmsList(req);
+    public DataGrid listPage(CmsMessageListDto req) {
+        Page<Object> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
+        List<CmsMessageVo> list = mapper.cmsListPage(req);
 
         DataGrid dataGrid = new DataGrid();
         dataGrid.setRows(list);

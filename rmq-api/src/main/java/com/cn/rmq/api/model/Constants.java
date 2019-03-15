@@ -23,6 +23,11 @@ public class Constants {
     public static final int CODE_FAILURE = 1;
 
     /**
+     * 用户session
+     */
+    public static final String SESSION_USER = "session_user";
+
+    /**
      * MSG
      */
     public static final String MSG_SUCCESS = "SUCCESS";

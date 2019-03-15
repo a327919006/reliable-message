@@ -1,5 +1,5 @@
 server:
-  port: 10082
+  port: 10081
   servlet:
     context-path: /rmq-cms
 
@@ -7,6 +7,7 @@ server:
 dubbo:
   application:
     name: rmq-cms
+    logger: slf4j
   registry:
     address: zookeeper://127.0.0.1:2181
   consumer:
