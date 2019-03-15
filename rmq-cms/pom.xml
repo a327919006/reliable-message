@@ -54,12 +54,6 @@
             <artifactId>curator-recipes</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- shiro -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -69,8 +63,8 @@
         <!-- modules -->
         <dependency>
             <groupId>com.cn.rmq</groupId>
-            <artifactId>rmq-api</artifactId>
-            <version>${rmq-api.version}</version>
+            <artifactId>rmq-cms-api</artifactId>
+            <version>${rmq-cms-api.version}</version>
         </dependency>
     </dependencies>
 

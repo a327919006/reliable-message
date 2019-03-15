@@ -1,7 +1,7 @@
-package com.cn.rmq.api.model.vo.cms.message;
+package com.cn.rmq.api.cms.model.vo.message;
 
-import com.cn.rmq.api.model.enums.AlreadyDeadEnum;
-import com.cn.rmq.api.model.enums.MessageStatusEnum;
+import com.cn.rmq.api.enums.AlreadyDeadEnum;
+import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.utils.json.serializer.DateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;

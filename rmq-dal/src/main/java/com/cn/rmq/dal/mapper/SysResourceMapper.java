@@ -1,7 +1,7 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.model.dto.cms.system.SysResourceDTO;
-import com.cn.rmq.api.model.po.SysResource;
+import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
+import com.cn.rmq.api.cms.model.po.SysResource;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

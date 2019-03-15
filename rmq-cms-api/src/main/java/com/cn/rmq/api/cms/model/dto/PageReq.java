@@ -1,4 +1,4 @@
-package com.cn.rmq.api.model.dto.cms;
+package com.cn.rmq.api.cms.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

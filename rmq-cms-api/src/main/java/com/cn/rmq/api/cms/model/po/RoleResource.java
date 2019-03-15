@@ -1,4 +1,4 @@
-package com.cn.rmq.api.model.po;
+package com.cn.rmq.api.cms.model.po;
 
 import lombok.Data;
 import lombok.Getter;

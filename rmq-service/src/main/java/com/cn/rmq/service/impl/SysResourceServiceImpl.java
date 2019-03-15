@@ -1,9 +1,9 @@
 package com.cn.rmq.service.impl;
 
-import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.system.SysResourceDTO;
-import com.cn.rmq.api.model.po.SysResource;
-import com.cn.rmq.api.service.ISysResourceService;
+import com.cn.rmq.api.cms.model.dto.DataGrid;
+import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
+import com.cn.rmq.api.cms.model.po.SysResource;
+import com.cn.rmq.api.cms.service.ISysResourceService;
 import com.cn.rmq.dal.mapper.RoleResourceMapper;
 import com.cn.rmq.dal.mapper.SysResourceMapper;
 import com.github.pagehelper.Page;
@@ -15,6 +15,9 @@ import java.util.List;
 
 /**
  * <p>资源服务实现类</p>
+ *
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 @Service
 public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, SysResource, String>

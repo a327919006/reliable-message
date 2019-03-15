@@ -1,13 +1,12 @@
 package com.cn.rmq.cms.web;
 
 import cn.hutool.crypto.SecureUtil;
+import com.cn.rmq.api.cms.model.po.SysUser;
+import com.cn.rmq.api.cms.service.ISysUserService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
-import com.cn.rmq.api.model.po.SysUser;
-import com.cn.rmq.api.service.ISysUserService;
 import com.cn.rmq.cms.utils.CaptchaValidateUtil;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -21,14 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>用户登录控制器</p>
+ *
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 @Controller
 public class LoginController {
-    private static final Logger LOG = Logger.getLogger(LoginController.class);
 
     @Reference
     private ISysUserService sysUserService;
-
 
     /**
      * <p>首页</p>
@@ -60,7 +60,7 @@ public class LoginController {
     @RequestMapping(value = "login/submit", method = RequestMethod.POST)
     @ResponseBody
     public Object submit(HttpServletRequest request,
-                         @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("captcha")String captcha) {
+                         @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("captcha") String captcha) {
 
         RspBase rspBase = new RspBase();
         if (!CaptchaValidateUtil.validate(request, captcha)) {
@@ -71,7 +71,7 @@ public class LoginController {
         if (null == user) {
             return rspBase.code(Constants.CODE_FAILURE).msg("用户名或密码错误").data(null);
         } else {
-            if(user.getUserStatus() != null && user.getUserStatus() == 0){
+            if (user.getUserStatus() != null && user.getUserStatus() == 0) {
                 return rspBase.code(Constants.CODE_FAILURE).msg("该用户已被禁用");
             }
             request.getSession().setAttribute(Constants.SESSION_USER, user);

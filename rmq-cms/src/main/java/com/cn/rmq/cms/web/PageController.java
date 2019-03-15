@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * <p>Title:</p>
- * <p>Description:</p>
+ * <p>页面控制器</p>
  *
  * @author Chen Nan
- * @date 2018/3/27.
+ * @date 2019/3/11.
  */
 @Controller
 @RequestMapping(value = "/page")

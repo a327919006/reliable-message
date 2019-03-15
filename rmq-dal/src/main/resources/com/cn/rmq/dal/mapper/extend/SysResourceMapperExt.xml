@@ -3,7 +3,7 @@
 <mapper namespace="com.cn.rmq.dal.mapper.SysResourceMapper" >
 
 
-  <resultMap id="ResultDTOMap" type="com.cn.rmq.api.model.dto.cms.system.SysResourceDTO">
+  <resultMap id="ResultDTOMap" type="com.cn.rmq.api.cms.model.dto.system.SysResourceDTO">
     <id column="resource_id" property="resourceId" jdbcType="VARCHAR"/>
     <result column="name" property="name" jdbcType="VARCHAR"/>
     <result column="url" property="url" jdbcType="VARCHAR"/>

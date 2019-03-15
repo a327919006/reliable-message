@@ -1,7 +1,6 @@
 package com.cn.rmq.cms.web;
 
 import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.captcha.ICaptcha;
 import com.cn.rmq.cms.utils.CaptchaValidateUtil;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  * <p>验证码控制器</p>
+ *
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 @Controller
 public class CaptchaController {

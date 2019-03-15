@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.rmq.dal.mapper.MessageMapper">
 
-    <resultMap id="CmsMessageVo" type="com.cn.rmq.api.model.vo.cms.message.CmsMessageVo" >
+    <resultMap id="CmsMessageVo" type="com.cn.rmq.api.cms.model.vo.message.CmsMessageVo" >
         <id column="id" property="id" jdbcType="CHAR" />
         <result column="consumer_queue" property="consumerQueue" jdbcType="VARCHAR" />
         <result column="resend_times" property="resendTimes" jdbcType="SMALLINT" />
@@ -49,7 +49,7 @@
         <include refid="condition"/>
     </select>
 
-    <select id="cmsListPage" parameterType="com.cn.rmq.api.model.dto.cms.message.CmsMessageListDto"
+    <select id="cmsListPage" parameterType="com.cn.rmq.api.cms.model.dto.message.CmsMessageListDto"
             resultMap="CmsMessageVo">
         SELECT <include refid="Base_Column_List" />
         FROM t_message

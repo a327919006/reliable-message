@@ -1,14 +1,15 @@
 package com.cn.rmq.cms.web;
 
 import cn.hutool.core.util.IdUtil;
+import com.cn.rmq.api.cms.enums.SysResourceTypeEnum;
+import com.cn.rmq.api.cms.model.dto.DataGrid;
+import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
+import com.cn.rmq.api.cms.model.po.SysResource;
+import com.cn.rmq.api.cms.model.po.SysUser;
+import com.cn.rmq.api.cms.service.ISysResourceService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
-import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.system.SysResourceDTO;
-import com.cn.rmq.api.model.enums.SysResourceTypeEnum;
-import com.cn.rmq.api.model.po.SysResource;
-import com.cn.rmq.api.model.po.SysUser;
-import com.cn.rmq.api.service.ISysResourceService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -24,12 +25,15 @@ import java.util.List;
 
 /**
  * <p>资源控制器</p>
+ *
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 @Controller
 @RequestMapping(value = "/sys_resource", method = RequestMethod.POST)
+@Slf4j
 public class SysResourceController {
 
-    private static final Logger LOG = Logger.getLogger(SysResourceController.class);
     private static final String[] IGNORES = {"resourceId", "createTime"};
 
     @Reference
@@ -52,13 +56,13 @@ public class SysResourceController {
     @ResponseBody
     @RequiresPermissions("resource:create")
     public Object create(@ModelAttribute SysResourceDTO model, HttpSession session) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         // 资源名称验证
         List<SysResourceDTO> resources = sysResourceService.selectByName(model.getName());
         RspBase rspBase = new RspBase();
         if (null != resources && resources.size() > 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("该资源已存在");
-            LOG.warn("应答内容：" + rspBase);
+            log.warn("应答内容：" + rspBase);
         } else {
             SysUser sysUser = (SysUser) session.getAttribute(Constants.SESSION_USER);
             model.setCreateUser(sysUser.getUserName());
@@ -71,7 +75,7 @@ public class SysResourceController {
             sysResourceService.insertSelective(resource);
             BeanUtils.copyProperties(resource, model);
             rspBase.code(Constants.CODE_SUCCESS).msg("新增成功").data(model);
-            LOG.info("应答内容：" + rspBase);
+            log.info("应答内容：" + rspBase);
         }
         return rspBase;
     }
@@ -85,16 +89,16 @@ public class SysResourceController {
     @RequestMapping(value = "/delete")
     @ResponseBody
     public Object delete(@RequestParam("resourceIds") String resourceIds) {
-        LOG.info("请求参数：resourceIds=" + resourceIds);
+        log.info("请求参数：resourceIds=" + resourceIds);
         List<String> list = Arrays.asList(resourceIds.split(","));
         int ret = sysResourceService.deleteByPrimaryKeys(list);
         RspBase rspBase = new RspBase();
         if (ret <= 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("删除失败");
-            LOG.warn("应答内容：" + rspBase);
+            log.warn("应答内容：" + rspBase);
         } else {
             rspBase.code(Constants.CODE_SUCCESS).msg("删除成功");
-            LOG.info("应答内容：" + rspBase);
+            log.info("应答内容：" + rspBase);
         }
         return rspBase;
     }
@@ -108,13 +112,13 @@ public class SysResourceController {
     @RequestMapping(value = "/update")
     @ResponseBody
     public Object update(@ModelAttribute SysResourceDTO model, HttpSession session) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         // 资源验证
         SysResource resource = sysResourceService.selectByPrimaryKey(model.getResourceId());
         RspBase rspBase = new RspBase();
         if (null == resource) {
             rspBase.code(Constants.CODE_FAILURE).msg("资源不存在");
-            LOG.warn("应答内容：" + rspBase);
+            log.warn("应答内容：" + rspBase);
             return rspBase;
         }
 
@@ -124,7 +128,7 @@ public class SysResourceController {
             List<SysResourceDTO> resources = sysResourceService.selectByName(model.getName());
             if (null != resources && resources.size() > 0) {
                 rspBase.code(Constants.CODE_FAILURE).msg("资源：" + model.getName() + "已存在");
-                LOG.warn("应答内容：" + rspBase);
+                log.warn("应答内容：" + rspBase);
                 return rspBase;
             }
         }
@@ -137,7 +141,7 @@ public class SysResourceController {
         sysResourceService.updateByPrimaryKey(resource);
         BeanUtils.copyProperties(resource, model);
         rspBase.code(Constants.CODE_SUCCESS).msg("修改成功").data(model);
-        LOG.info("应答内容：" + rspBase);
+        log.info("应答内容：" + rspBase);
         return rspBase;
     }
 
@@ -147,7 +151,7 @@ public class SysResourceController {
     @RequestMapping(value = "/search")
     @ResponseBody
     public Object searchResources(@ModelAttribute SysResourceDTO model) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         DataGrid datagrid = sysResourceService.selectByConditionPage(model);
         return datagrid;
     }
@@ -157,17 +161,17 @@ public class SysResourceController {
     public Object getMenu() {
         List<SysResourceDTO> resources = sysResourceService.selectByType(SysResourceTypeEnum.MENU.getValue());
 
-//        LOG.info("应答内容：" + resources);
+//        log.info("应答内容：" + resources);
         return resources;
     }
 
     @RequestMapping(value = "/ztree")
     @ResponseBody
     public Object getZTree(@ModelAttribute SysResourceDTO model, HttpServletResponse response) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         model.setStatus((byte) 1);
         List<SysResourceDTO> resources = sysResourceService.selectByConditionAll(model);
-//        LOG.info("应答内容：status=" + response.getStatus() + ", entity=" + resources);
+//        log.info("应答内容：status=" + response.getStatus() + ", entity=" + resources);
         return resources;
     }
 }

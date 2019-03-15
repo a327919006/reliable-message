@@ -1,8 +1,9 @@
-package com.cn.rmq.api.service;
+package com.cn.rmq.api.cms.service;
 
-import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.system.SysResourceDTO;
-import com.cn.rmq.api.model.po.SysResource;
+import com.cn.rmq.api.cms.model.po.SysResource;
+import com.cn.rmq.api.cms.model.dto.DataGrid;
+import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
+import com.cn.rmq.api.service.IBaseService;
 
 import java.util.List;
 

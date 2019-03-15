@@ -1,7 +1,7 @@
-package com.cn.rmq.api.model.dto.cms.message;
+package com.cn.rmq.api.cms.model.dto.message;
 
 import cn.hutool.json.JSONUtil;
-import com.cn.rmq.api.model.dto.cms.PageReq;
+import com.cn.rmq.api.cms.model.dto.PageReq;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;

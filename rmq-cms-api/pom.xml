@@ -10,6 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rmq-cms-api</artifactId>
+    <packaging>jar</packaging>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.cn.rmq</groupId>
+            <artifactId>rmq-api</artifactId>
+            <version>${rmq-api.version}</version>
+        </dependency>
+    </dependencies>
 </project>

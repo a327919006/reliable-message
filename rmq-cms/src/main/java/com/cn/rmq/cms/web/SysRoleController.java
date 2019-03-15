@@ -1,16 +1,16 @@
 package com.cn.rmq.cms.web;
 
 import cn.hutool.core.util.IdUtil;
+import com.cn.rmq.api.cms.model.dto.DataGrid;
+import com.cn.rmq.api.cms.model.dto.system.SysRoleDTO;
+import com.cn.rmq.api.cms.model.po.RoleResource;
+import com.cn.rmq.api.cms.model.po.SysRole;
+import com.cn.rmq.api.cms.model.po.SysUser;
+import com.cn.rmq.api.cms.service.ISysRoleService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
-import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.system.SysRoleDTO;
-import com.cn.rmq.api.model.po.RoleResource;
-import com.cn.rmq.api.model.po.SysRole;
-import com.cn.rmq.api.model.po.SysUser;
-import com.cn.rmq.api.service.ISysRoleService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -24,12 +24,14 @@ import java.util.List;
 /**
  * <p>角色控制器</p>
  *
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 @Controller
 @RequestMapping(value = "/sys_role", method = RequestMethod.POST)
+@Slf4j
 public class SysRoleController {
 
-    private static final Logger LOG = Logger.getLogger(SysRoleController.class);
     private static final String[] IGNORES = {"roleId", "createTime"};
 
     @Reference
@@ -51,14 +53,14 @@ public class SysRoleController {
     @RequestMapping(value = "/create")
     @ResponseBody
     public Object create(@ModelAttribute SysRole model, HttpSession session) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
 
         RspBase rspBase = new RspBase();
         // 验证角色名称
         List<SysRole> roles = sysRoleService.selectByRoleName(model.getRoleName());
         if (null != roles && roles.size() > 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("该角色已存在");
-            LOG.info("应答内容：" + rspBase);
+            log.info("应答内容：" + rspBase);
             return rspBase;
         }
 
@@ -72,7 +74,7 @@ public class SysRoleController {
         newRole.setCreateTime(new Date());
         sysRoleService.insert(newRole);
         rspBase.code(Constants.CODE_SUCCESS).msg("新增成功").data(newRole);
-        LOG.info("应答内容：" + rspBase);
+        log.info("应答内容：" + rspBase);
         return rspBase;
     }
 
@@ -82,12 +84,12 @@ public class SysRoleController {
     @RequestMapping(value = "/delete")
     @ResponseBody
     public Object delete(@RequestParam("roleIds") String roleIds) {
-        LOG.debug("请求参数：" + roleIds);
+        log.debug("请求参数：" + roleIds);
         List<String> list = Arrays.asList(roleIds.split(","));
         sysRoleService.deleteByPrimaryKeys(list);
         RspBase rspBase = new RspBase();
         rspBase.code(Constants.CODE_SUCCESS).msg("删除成功");
-        LOG.debug("应答内容：" + rspBase);
+        log.debug("应答内容：" + rspBase);
         return rspBase;
     }
 
@@ -97,14 +99,14 @@ public class SysRoleController {
     @RequestMapping(value = "/update")
     @ResponseBody
     public Object update(@ModelAttribute SysRole model, HttpSession session) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
 
         RspBase rspBase = new RspBase();
         // 验证角色
         SysRole role = sysRoleService.selectByPrimaryKey(model.getRoleId());
         if (null == role) {
             rspBase.code(Constants.CODE_FAILURE).msg("修改失败：无对应角色信息");
-            LOG.info("应答内容：" + rspBase);
+            log.info("应答内容：" + rspBase);
             return rspBase;
         }
 
@@ -113,8 +115,8 @@ public class SysRoleController {
             // 用户名验证
             List<SysRole> roles = sysRoleService.selectByRoleName(model.getRoleName());
             if (null != roles && roles.size() > 0) {
-                rspBase.code(Constants.CODE_FAILURE).msg("角色：" + model.getRoleName()  + " 已存在");
-                LOG.warn("应答内容：" + rspBase);
+                rspBase.code(Constants.CODE_FAILURE).msg("角色：" + model.getRoleName() + " 已存在");
+                log.warn("应答内容：" + rspBase);
                 return rspBase;
             }
         }
@@ -127,7 +129,7 @@ public class SysRoleController {
         sysRoleService.updateByPrimaryKeySelective(role);
         BeanUtils.copyProperties(role, model);
         rspBase.code(Constants.CODE_SUCCESS).msg("修改成功").data(model);
-        LOG.info("应答内容：" + rspBase);
+        log.info("应答内容：" + rspBase);
         return rspBase;
     }
 
@@ -137,9 +139,9 @@ public class SysRoleController {
     @RequestMapping(value = "/{roleId}/resources")
     @ResponseBody
     public Object getRoleResources(@PathVariable("roleId") String roleId) {
-        LOG.info("请求参数：roleId=" + roleId);
+        log.info("请求参数：roleId=" + roleId);
         List<RoleResource> roleResources = sysRoleService.getRoleResources(roleId);
-        LOG.info("应答内容：" + roleResources);
+        log.info("应答内容：" + roleResources);
         return roleResources;
     }
 
@@ -150,7 +152,7 @@ public class SysRoleController {
     @RequestMapping(value = "/search")
     @ResponseBody
     public Object search(@ModelAttribute SysRoleDTO model) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         DataGrid datagrid = sysRoleService.selectByConditionPage(model);
         return datagrid;
     }
@@ -158,25 +160,25 @@ public class SysRoleController {
     @RequestMapping(value = "/ztree")
     @ResponseBody
     public Object getZTree(@ModelAttribute SysRoleDTO model) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         List<SysRole> roles = sysRoleService.selectByConditionAll(model);
-        LOG.info("应答内容：" + roles);
+        log.info("应答内容：" + roles);
         return roles;
     }
 
     @RequestMapping(value = "/{roleId}/resources/allot")
     @ResponseBody
     public Object allotRoleResources(@RequestParam(value = "resourceIds") String resourceIds, @PathVariable("roleId") String roleId) {
-        LOG.info("请求参数：roleId=" + roleId + ", resourceIds=" + resourceIds);
+        log.info("请求参数：roleId=" + roleId + ", resourceIds=" + resourceIds);
         RspBase rspBase = new RspBase();
         int ret = sysRoleService.allotRoleResources(roleId, Arrays.asList(resourceIds.split(",")));
         if (ret <= 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("分配角色资源失败");
-            LOG.warn("应答内容：" + rspBase);
+            log.warn("应答内容：" + rspBase);
             return rspBase;
         }
         rspBase.code(Constants.CODE_SUCCESS).msg("分配角色资源成功");
-        LOG.info("应答内容：" + rspBase);
+        log.info("应答内容：" + rspBase);
         return rspBase;
     }
 }

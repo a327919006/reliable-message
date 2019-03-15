@@ -69,18 +69,7 @@
             <artifactId>curator-recipes</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- modules -->
-        <dependency>
-            <groupId>com.cn.rmq</groupId>
-            <artifactId>rmq-api</artifactId>
-            <version>${rmq-api.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.cn.rmq</groupId>
             <artifactId>rmq-dal</artifactId>

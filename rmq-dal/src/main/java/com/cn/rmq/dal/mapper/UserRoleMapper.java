@@ -1,6 +1,6 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.model.po.UserRole;
+import com.cn.rmq.api.cms.model.po.UserRole;
 
 import java.util.List;
 

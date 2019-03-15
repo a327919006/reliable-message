@@ -1,4 +1,4 @@
-package com.cn.rmq.api.model.enums;
+package com.cn.rmq.api.enums;
 
 /**
  * <p>Title:</p>

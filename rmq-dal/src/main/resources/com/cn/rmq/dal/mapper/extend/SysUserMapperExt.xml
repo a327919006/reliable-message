@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.rmq.dal.mapper.SysUserMapper" >
 
-  <resultMap id="ResultDTOMap" type="com.cn.rmq.api.model.dto.cms.system.SysUserDTO" >
+  <resultMap id="ResultDTOMap" type="com.cn.rmq.api.cms.model.dto.system.SysUserDTO" >
     <id column="sys_user_id" property="sysUserId" jdbcType="VARCHAR" />
     <result column="area_id" property="areaId" jdbcType="INTEGER" />
     <result column="area_name" property="areaName" jdbcType="VARCHAR" />
@@ -49,7 +49,7 @@
   <!--
       根据查询条件获取用户列表
   -->
-  <select id="selectByConditionPage" resultMap="ResultDTOMap" parameterType="com.cn.rmq.api.model.dto.cms.system.SysUserDTO">
+  <select id="selectByConditionPage" resultMap="ResultDTOMap" parameterType="com.cn.rmq.api.cms.model.dto.system.SysUserDTO">
     SELECT
     sy.*
     FROM t_sys_user AS sy
@@ -72,7 +72,7 @@
   <!--
       根据查询条件统计用户记录数
   -->
-  <select id="countByCondition" resultType="java.lang.Integer" parameterType="com.cn.rmq.api.model.dto.cms.system.SysUserDTO">
+  <select id="countByCondition" resultType="java.lang.Integer" parameterType="com.cn.rmq.api.cms.model.dto.system.SysUserDTO">
     SELECT
     COUNT(*)
     FROM t_sys_user AS sy

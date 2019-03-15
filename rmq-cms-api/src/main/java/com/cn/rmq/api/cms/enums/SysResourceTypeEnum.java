@@ -1,4 +1,4 @@
-package com.cn.rmq.api.model.enums;
+package com.cn.rmq.api.cms.enums;
 
 /**
  * <p>系统资源类型枚举</p>

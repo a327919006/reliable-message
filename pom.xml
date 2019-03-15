@@ -23,6 +23,7 @@
 
         <!--model-->
         <rmq-api.version>1.0</rmq-api.version>
+        <rmq-cms-api.version>1.0</rmq-cms-api.version>
         <rmq-dal.version>1.0</rmq-dal.version>
         <rmq-service.version>1.0</rmq-service.version>
 

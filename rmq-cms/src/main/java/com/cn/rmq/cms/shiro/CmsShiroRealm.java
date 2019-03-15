@@ -1,14 +1,13 @@
 package com.cn.rmq.cms.shiro;
 
-import com.cn.rmq.api.model.po.SysResource;
-import com.cn.rmq.api.model.po.SysRole;
-import com.cn.rmq.api.model.po.SysUser;
-import com.cn.rmq.api.service.ISysResourceService;
-import com.cn.rmq.api.service.ISysRoleService;
-import com.cn.rmq.api.service.ISysUserService;
+import com.cn.rmq.api.cms.model.po.SysResource;
+import com.cn.rmq.api.cms.model.po.SysRole;
+import com.cn.rmq.api.cms.model.po.SysUser;
+import com.cn.rmq.api.cms.service.ISysResourceService;
+import com.cn.rmq.api.cms.service.ISysRoleService;
+import com.cn.rmq.api.cms.service.ISysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.log4j.Logger;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -22,11 +21,13 @@ import java.util.Set;
 
 /**
  * <p>ShiroRealm 实现类</p>
+ *
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 @Component
-public class CmsShiroRealm extends AuthorizingRealm {
 
-    private static final Logger LOG = Logger.getLogger(CmsShiroRealm.class);
+public class CmsShiroRealm extends AuthorizingRealm {
 
     @Reference
     private ISysUserService sysUserService;

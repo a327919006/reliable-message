@@ -1,7 +1,7 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.model.dto.cms.system.SysRoleDTO;
-import com.cn.rmq.api.model.po.SysRole;
+import com.cn.rmq.api.cms.model.dto.system.SysRoleDTO;
+import com.cn.rmq.api.cms.model.po.SysRole;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

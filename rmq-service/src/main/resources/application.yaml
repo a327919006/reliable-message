@@ -4,7 +4,7 @@ spring:
 
 
 mybatis:
-  typeAliasesPackage: com.cn.rmq.api.model.po
+  typeAliasesPackage: com.cn.rmq.api.model.po, com.cn.rmq.api.cms.model.po
   mapperLocations: classpath:com/cn/rmq/dal/mapper/**/*.xml
   configuration:
     cache-enabled: true

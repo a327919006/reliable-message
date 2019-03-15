@@ -2,16 +2,16 @@ package com.cn.rmq.cms.web;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.SecureUtil;
+import com.cn.rmq.api.cms.model.dto.DataGrid;
+import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
+import com.cn.rmq.api.cms.model.dto.system.SysUserDTO;
+import com.cn.rmq.api.cms.model.po.SysUser;
+import com.cn.rmq.api.cms.model.po.UserRole;
+import com.cn.rmq.api.cms.service.ISysUserService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
-import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.system.SysResourceDTO;
-import com.cn.rmq.api.model.dto.cms.system.SysUserDTO;
-import com.cn.rmq.api.model.po.SysUser;
-import com.cn.rmq.api.model.po.UserRole;
-import com.cn.rmq.api.service.ISysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +26,13 @@ import java.util.List;
 /**
  * <p>系统用户控制器</p>
  *
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 @Controller
 @RequestMapping(value = "/sys_user", method = RequestMethod.POST)
+@Slf4j
 public class SysUserController {
-    private static final Logger LOG = Logger.getLogger(SysUserController.class);
     private static final String[] IGNORES = {"sysUserId", "createTime"};
 
     @Reference
@@ -52,13 +54,13 @@ public class SysUserController {
     @RequestMapping(value = "/create")
     @ResponseBody
     public Object create(@ModelAttribute SysUser model, HttpSession session) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         // 用户名验证
         List<SysUser> users = sysUserService.selectByUserName(model.getUserName());
         RspBase rspBase = new RspBase();
         if (null != users && users.size() > 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("该用户已存在");
-            LOG.warn("应答内容：" + rspBase);
+            log.warn("应答内容：" + rspBase);
         } else {
             SysUser sysUser = (SysUser) session.getAttribute(Constants.SESSION_USER);
             model.setCreateUser(sysUser.getUserName());
@@ -73,7 +75,7 @@ public class SysUserController {
             sysUserService.insertSelective(newUser);
             BeanUtils.copyProperties(newUser, model);
             rspBase.code(Constants.CODE_SUCCESS).msg("新增成功").data(model);
-            LOG.info("应答内容：" + rspBase);
+            log.info("应答内容：" + rspBase);
         }
         return rspBase;
     }
@@ -84,16 +86,16 @@ public class SysUserController {
     @RequestMapping(value = "/delete")
     @ResponseBody
     public Object delete(@RequestParam("userIds") String userIds) {
-        LOG.info("请求内容：" + userIds);
+        log.info("请求内容：" + userIds);
         List<String> list = Arrays.asList(userIds.split(","));
         int ret = sysUserService.deleteByPrimaryKeys(list);
         RspBase rspBase = new RspBase();
         if (ret <= 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("删除失败");
-            LOG.warn("应答内容：" + rspBase);
+            log.warn("应答内容：" + rspBase);
         } else {
             rspBase.code(Constants.CODE_SUCCESS).msg("删除成功");
-            LOG.info("应答内容：" + rspBase);
+            log.info("应答内容：" + rspBase);
         }
         return rspBase;
     }
@@ -104,13 +106,13 @@ public class SysUserController {
     @RequestMapping(value = "/update")
     @ResponseBody
     public Object update(@ModelAttribute SysUser model, HttpSession session) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         // 用户验证
         SysUser user = sysUserService.selectByPrimaryKey(model.getSysUserId());
         RspBase rspBase = new RspBase();
         if (null == user) {
             rspBase.code(Constants.CODE_FAILURE).msg("系统用户不存在");
-            LOG.warn("应答内容：" + rspBase);
+            log.warn("应答内容：" + rspBase);
             return rspBase;
         }
 
@@ -119,8 +121,8 @@ public class SysUserController {
             // 用户名验证
             List<SysUser> users = sysUserService.selectByUserName(model.getUserName());
             if (null != users && users.size() > 0) {
-                rspBase.code(Constants.CODE_FAILURE).msg("用户：" + model.getUserName()  + " 已存在");
-                LOG.warn("应答内容：" + rspBase);
+                rspBase.code(Constants.CODE_FAILURE).msg("用户：" + model.getUserName() + " 已存在");
+                log.warn("应答内容：" + rspBase);
                 return rspBase;
             }
         }
@@ -133,7 +135,7 @@ public class SysUserController {
         sysUserService.updateByPrimaryKeySelective(user);
         BeanUtils.copyProperties(user, model);
         rspBase.code(Constants.CODE_SUCCESS).msg("修改成功").data(model);
-        LOG.info("应答内容：" + rspBase);
+        log.info("应答内容：" + rspBase);
         return rspBase;
     }
 
@@ -143,7 +145,7 @@ public class SysUserController {
     @RequestMapping(value = "/search")
     @ResponseBody
     public Object search(@ModelAttribute SysUserDTO model) {
-        LOG.info("请求参数：" + model);
+        log.info("请求参数：" + model);
         // 过滤用户状态为全部的搜索条件
         if (Byte.valueOf((byte) -1).equals(model.getUserStatus())) {
             model.setUserStatus(null);
@@ -167,21 +169,22 @@ public class SysUserController {
         RspBase rspBase = new RspBase();
         if (!sysUser.getUserPwd().equals(SecureUtil.md5(oldPwd))) {
             rspBase.code(Constants.CODE_FAILURE).msg("旧密码错误");
-            LOG.info("应答内容：" + rspBase);
+            log.info("应答内容：" + rspBase);
         } else {
             sysUser.setUserPwd(SecureUtil.md5(newPwd));
             sysUser.setUpdateTime(new Date());
             sysUserService.updateByPrimaryKeySelective(sysUser);
             rspBase.code(Constants.CODE_SUCCESS).msg("修改密码成功，请重新登录");
             request.getSession().removeAttribute(Constants.SESSION_USER);
-            LOG.info("应答内容：" + rspBase);
+            log.info("应答内容：" + rspBase);
         }
         return rspBase;
     }
 
     /**
      * <p>获取用户角色</p>
-     * @param userId   用户唯一标识
+     *
+     * @param userId 用户唯一标识
      */
     @RequestMapping(value = "/{userId}/roles")
     @ResponseBody
@@ -196,14 +199,14 @@ public class SysUserController {
     @RequestMapping(value = "/{userId}/role/allot")
     @ResponseBody
     public Object allotUserRoles(@RequestParam(value = "roleIds") String roleIds, @PathVariable("userId") String userId) {
-        LOG.info("请求参数：userId=" + userId + ", roleIds=" + roleIds);
+        log.info("请求参数：userId=" + userId + ", roleIds=" + roleIds);
         RspBase rspBase = new RspBase();
-        if(userId.equals("512c06d31bff11e6948f6c0b84680048")){
+        if (userId.equals("512c06d31bff11e6948f6c0b84680048")) {
             return rspBase.code(Constants.CODE_FAILURE).msg("禁止修改系统账号角色");
         }
         sysUserService.allotUserRole(userId, Arrays.asList(roleIds.split(",")));
         rspBase.code(Constants.CODE_SUCCESS).msg("分配角色成功");
-        LOG.info("应答内容：" + rspBase);
+        log.info("应答内容：" + rspBase);
         return rspBase;
     }
 

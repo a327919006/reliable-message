@@ -1,13 +1,10 @@
 package com.cn.rmq.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.cn.rmq.api.enums.AlreadyDeadEnum;
+import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.exceptions.CheckException;
-import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.message.CmsMessageListDto;
-import com.cn.rmq.api.model.enums.AlreadyDeadEnum;
-import com.cn.rmq.api.model.enums.MessageStatusEnum;
 import com.cn.rmq.api.model.po.Message;
-import com.cn.rmq.api.model.vo.cms.message.CmsMessageVo;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.dal.mapper.MessageMapper;
 import com.github.pagehelper.Page;
@@ -200,16 +197,5 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             }
             countFlag = false;
         }
-    }
-
-    @Override
-    public DataGrid listPage(CmsMessageListDto req) {
-        Page<Object> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
-        List<CmsMessageVo> list = mapper.cmsListPage(req);
-
-        DataGrid dataGrid = new DataGrid();
-        dataGrid.setRows(list);
-        dataGrid.setTotal(pageInfo.getTotal());
-        return dataGrid;
     }
 }

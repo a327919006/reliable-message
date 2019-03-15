@@ -1,9 +1,10 @@
-package com.cn.rmq.api.service;
+package com.cn.rmq.api.cms.service;
 
-import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.system.SysRoleDTO;
-import com.cn.rmq.api.model.po.RoleResource;
-import com.cn.rmq.api.model.po.SysRole;
+import com.cn.rmq.api.cms.model.po.RoleResource;
+import com.cn.rmq.api.cms.model.po.SysRole;
+import com.cn.rmq.api.cms.model.dto.DataGrid;
+import com.cn.rmq.api.cms.model.dto.system.SysRoleDTO;
+import com.cn.rmq.api.service.IBaseService;
 
 import java.util.List;
 

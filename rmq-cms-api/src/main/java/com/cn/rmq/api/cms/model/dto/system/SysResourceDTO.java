@@ -1,4 +1,4 @@
-package com.cn.rmq.api.model.dto.cms.system;
+package com.cn.rmq.api.cms.model.dto.system;
 
 import com.cn.rmq.api.utils.json.deserializer.DateTimeDeserializer;
 import com.cn.rmq.api.utils.json.serializer.DateTimeSerializer;

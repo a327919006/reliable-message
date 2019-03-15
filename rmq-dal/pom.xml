@@ -36,6 +36,11 @@
             <artifactId>rmq-api</artifactId>
             <version>${rmq-api.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.cn.rmq</groupId>
+            <artifactId>rmq-cms-api</artifactId>
+            <version>${rmq-cms-api.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

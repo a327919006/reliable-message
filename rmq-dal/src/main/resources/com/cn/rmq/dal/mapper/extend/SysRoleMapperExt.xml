@@ -17,8 +17,8 @@
   <!--
       根据查询条件获取记录分页
   -->
-  <select id="selectByConditionPage" resultType="com.cn.rmq.api.model.dto.cms.system.SysRoleDTO"
-          parameterType="com.cn.rmq.api.model.dto.cms.system.SysRoleDTO">
+  <select id="selectByConditionPage" resultType="com.cn.rmq.api.cms.model.dto.system.SysRoleDTO"
+          parameterType="com.cn.rmq.api.cms.model.dto.system.SysRoleDTO">
     SELECT role_id AS roleId, role_name AS roleName, create_time AS createTime,
     update_time AS updateTime, status
     FROM t_sys_role WHERE 1=1
@@ -33,7 +33,7 @@
   <!--
       根据查询条件获取记录分页
   -->
-  <select id="selectByConditionAll" resultMap="BaseResultMap" parameterType="com.cn.rmq.api.model.dto.cms.system.SysRoleDTO">
+  <select id="selectByConditionAll" resultMap="BaseResultMap" parameterType="com.cn.rmq.api.cms.model.dto.system.SysRoleDTO">
     SELECT
     <include refid="Base_Column_List"/>
     FROM t_sys_role WHERE 1=1
@@ -48,7 +48,7 @@
   <!--
       根据查询条件获取记录数
   -->
-  <select id="countByCondition" resultType="java.lang.Integer" parameterType="com.cn.rmq.api.model.dto.cms.system.SysRoleDTO">
+  <select id="countByCondition" resultType="java.lang.Integer" parameterType="com.cn.rmq.api.cms.model.dto.system.SysRoleDTO">
     SELECT
     COUNT(*)
     FROM t_sys_role WHERE 1=1

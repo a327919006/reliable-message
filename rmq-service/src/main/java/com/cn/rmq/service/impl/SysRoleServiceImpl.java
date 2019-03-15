@@ -1,11 +1,11 @@
 package com.cn.rmq.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.cn.rmq.api.model.dto.cms.DataGrid;
-import com.cn.rmq.api.model.dto.cms.system.SysRoleDTO;
-import com.cn.rmq.api.model.po.RoleResource;
-import com.cn.rmq.api.model.po.SysRole;
-import com.cn.rmq.api.service.ISysRoleService;
+import com.cn.rmq.api.cms.model.dto.DataGrid;
+import com.cn.rmq.api.cms.model.dto.system.SysRoleDTO;
+import com.cn.rmq.api.cms.model.po.RoleResource;
+import com.cn.rmq.api.cms.model.po.SysRole;
+import com.cn.rmq.api.cms.service.ISysRoleService;
 import com.cn.rmq.dal.mapper.RoleResourceMapper;
 import com.cn.rmq.dal.mapper.SysRoleMapper;
 import com.cn.rmq.dal.mapper.UserRoleMapper;
@@ -21,6 +21,8 @@ import java.util.List;
 /**
  * <p>角色服务实现类</p>
  *
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 @Service
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole, String>
