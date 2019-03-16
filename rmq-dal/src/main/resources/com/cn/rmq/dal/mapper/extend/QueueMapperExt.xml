@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cn.rmq.dal.mapper.MessageMapper">
+<mapper namespace="com.cn.rmq.dal.mapper.QueueMapper">
 
-    <resultMap id="CmsMessageVo" type="com.cn.rmq.api.cms.model.vo.message.CmsMessageVo" >
+    <resultMap id="CmsQueueVo" type="com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo" >
         <id column="id" property="id" jdbcType="CHAR" />
+        <result column="business_name" property="businessName" jdbcType="VARCHAR" />
         <result column="consumer_queue" property="consumerQueue" jdbcType="VARCHAR" />
-        <result column="resend_times" property="resendTimes" jdbcType="SMALLINT" />
-        <result column="already_dead" property="alreadyDead" jdbcType="TINYINT" />
-        <result column="status" property="status" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-        <result column="message_body" property="messageBody" jdbcType="LONGVARCHAR" />
     </resultMap>
 
     <sql id="condition">
@@ -20,51 +19,35 @@
         <if test="consumerQueue != null and consumerQueue != ''">
             AND consumer_queue = #{consumerQueue,jdbcType=VARCHAR}
         </if>
-        <if test="alreadyDead != null">
-            AND already_dead = #{alreadyDead,jdbcType=TINYINT}
-        </if>
     </sql>
 
-    <update id="addResendTimes" parameterType="java.lang.String">
-        UPDATE t_message
-        SET resend_times = resend_times + 1,
-          update_time = now()
-        WHERE id = #{messageId,jdbcType=CHAR}
-    </update>
-
-    <select id="count" parameterType="Message" resultType="java.lang.Integer">
-        SELECT count(1)
-        FROM t_message
-        WHERE 1=1
-        <include refid="condition"/>
-    </select>
-
-    <select id="list" parameterType="Message" resultMap="ResultMapWithBLOBs">
-        SELECT
-        <include refid="Base_Column_List" />
-        ,
-        <include refid="Blob_Column_List" />
-        FROM t_message
-        WHERE 1=1
-        <include refid="condition"/>
-    </select>
-
-    <select id="cmsListPage" parameterType="com.cn.rmq.api.cms.model.dto.message.CmsMessageListDto"
-            resultMap="CmsMessageVo">
+    <select id="get" parameterType="Queue" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List" />
-        FROM t_message
+        FROM t_queue
+        WHERE 1=1
+        <include refid="condition"/>
+    </select>
+
+    <select id="count" parameterType="Queue" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM t_queue
+        WHERE 1=1
+        <include refid="condition"/>
+    </select>
+
+    <select id="cmsListPage" parameterType="com.cn.rmq.api.cms.model.dto.queue.CmsQueueListDto"
+            resultMap="CmsQueueVo">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_queue
         WHERE 1=1
         <if test="id != null and id != ''">
             AND id = #{id,jdbcType=VARCHAR}
         </if>
+        <if test="businessName != null and businessName != ''">
+            AND business_name LIKE CONCAT ('%', #{businessName,jdbcType=VARCHAR},'%')
+        </if>
         <if test="consumerQueue != null and consumerQueue != ''">
             AND consumer_queue LIKE CONCAT (#{consumerQueue,jdbcType=VARCHAR},'%')
-        </if>
-        <if test="alreadyDead != null">
-            AND already_dead = #{alreadyDead,jdbcType=TINYINT}
-        </if>
-        <if test="status != null">
-            AND status = #{status,jdbcType=TINYINT}
         </if>
         <choose>
             <when test="createStartTime != null and createEndTime != null">

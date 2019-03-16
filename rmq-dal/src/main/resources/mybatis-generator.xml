@@ -41,8 +41,8 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>-->
 
-        <table tableName="t_message" enableSelectByExample="false"
+        <table tableName="t_queue" enableSelectByExample="false"
                enableDeleteByExample="false" enableCountByExample="false"
-               enableUpdateByExample="false" domainObjectName="Message"/>
+               enableUpdateByExample="false" domainObjectName="Queue"/>
     </context>
 </generatorConfiguration>

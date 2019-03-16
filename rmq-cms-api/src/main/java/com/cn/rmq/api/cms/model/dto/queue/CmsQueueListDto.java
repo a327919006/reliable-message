@@ -1,4 +1,4 @@
-package com.cn.rmq.api.cms.model.dto.message;
+package com.cn.rmq.api.cms.model.dto.queue;
 
 import cn.hutool.json.JSONUtil;
 import com.cn.rmq.api.cms.model.dto.PageReq;
@@ -6,23 +6,23 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Date;
+
 /**
  * <p>Title:</p>
  * <p>Description:</p>
  *
  * @author Chen Nan
- * @date 2019/3/14.
+ * @date 2019/3/16.
  */
 @Getter
 @Setter
-public class CmsMessageListDto extends PageReq {
+public class CmsQueueListDto extends PageReq {
     private String id;
 
+    private String businessName;
+
     private String consumerQueue;
-
-    private Byte alreadyDead;
-
-    private Byte status;
 
     /**
      * 创建时间起

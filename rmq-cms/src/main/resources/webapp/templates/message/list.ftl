@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     $(function () {//初始化
         $('#message_datagrid').datagrid({
@@ -28,7 +27,7 @@
                 {
                     field: 'id',
                     title: '消息ID',
-                    width: 40
+                    width: 50
                 },
                 {
                     field: 'consumerQueue',
@@ -48,7 +47,14 @@
                 {
                     field: 'alreadyDeadName',
                     title: '是否死亡',
-                    width: 30
+                    width: 30,
+                    formatter: function (value, row, index) {
+                        if (row.alreadyDead === 1) {
+                            return "<span style='color: red'>" + row.alreadyDeadName + "</span>";
+                        } else {
+                            return "<span style='color: dodgerblue'>" + row.alreadyDeadName + "</span>";
+                        }
+                    }
                 },
                 {
                     field: 'createTime',
@@ -59,6 +65,22 @@
                     field: 'updateTime',
                     title: '更新时间',
                     width: 30
+                },
+                {
+                    field: 'operation',
+                    title: '操作',
+                    width: 30,
+                    formatter: function (value, row, index) {
+                        var operators = "<span style='color: blue'>";
+                        operators += "<a href='javascript:void(0)' onclick=\"messageDelete(\'" + row.id + "\')\">删除</a>";
+
+                        if (row.status === 1) {
+                            operators += " | ";
+                            operators += "<a href='javascript:void(0)' onclick=\"messageResend(\'" + row.id + "\')\">重发</a>"
+                        }
+                        operators += "</span>";
+                        return operators;
+                    }
                 }
             ]],
             toolbar: [
@@ -77,9 +99,78 @@
     });
 
     /**
-     * 详情
+     * 删除消息
      */
-    function message_showDetail(rowdata) {
+    function messageDelete(id) {
+        $.messager.confirm('确认', '您是否要删除当前的记录？', function (ret) {
+            if (ret) {
+                parent.$.messager.progress({
+                    text: '正在执行，请稍后....',
+                    interval: 100
+                });
+                $.ajax({
+                    url: 'message/' + id,
+                    data: {
+                        _method: "DELETE"
+                    },
+                    type: "POST",//默认以get提交，使用get提交如果有中文后台会出现乱码
+                    dataType: 'json',
+                    success: function (rsp) {
+                        parent.$.messager.progress('close'); // 关闭进程对话框
+                        var dataGrid = $('#message_datagrid');
+                        dataGrid.datagrid('load');
+                        dataGrid.datagrid('unselectAll');//取消选中
+                        if (rsp.code === 0) {
+                            $.messager.show({
+                                title: '成功提示',
+                                msg: rsp.msg
+                            });
+                        } else {
+                            $.messager.alert('错误提示', rsp.msg, 'error');
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 重发消息
+     */
+    function messageResend(id) {
+        $.messager.confirm('确认', '您是否要删除当前的记录？', function (ret) {
+            if (ret) {
+                parent.$.messager.progress({
+                    text: '正在执行，请稍后....',
+                    interval: 100
+                });
+                $.ajax({
+                    url: 'message/' + id + "/resend",
+                    type: "POST",//默认以get提交，使用get提交如果有中文后台会出现乱码
+                    dataType: 'json',
+                    success: function (rsp) {
+                        parent.$.messager.progress('close'); // 关闭进程对话框
+                        var dataGrid = $('#message_datagrid');
+                        dataGrid.datagrid('load');
+                        dataGrid.datagrid('unselectAll');//取消选中
+                        if (rsp.code === 0) {
+                            $.messager.show({
+                                title: '成功提示',
+                                msg: rsp.msg
+                            });
+                        } else {
+                            $.messager.alert('错误提示', rsp.msg, 'error');
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 详情页
+     */
+    function message_showDetail(rowData) {
         var dig = $('<div  />').dialog({
             href: 'page/message/detail',
             width: 850,
@@ -100,11 +191,14 @@
             },
             onLoad: function () {
                 //必须在窗体打开之前加载数据
-                getMessageDetail(rowdata.id);
+                getMessageDetail(rowData.id);
             }
         });
     }
 
+    /**
+     * 获取消息详情
+     */
     function getMessageDetail(messageId) {
         $.ajax({
             type: "GET",

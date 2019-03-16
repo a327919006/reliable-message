@@ -19,6 +19,8 @@
 <form id="message_searchform" class="field-form" style="margin-top:5px;margin-bottom: 0px;">
     <table>
         <tr>
+            <td>消息ID</td>
+            <td><input name="id" class="easyui-validatebox"/></td>
             <td>消费队列</td>
             <td><input name="consumerQueue" class="easyui-validatebox"/></td>
             <td>消息状态</td>
@@ -30,6 +32,8 @@
                     <option value="1">发送中</option>
                 </select>
             </td>
+        </tr>
+        <tr>
             <td>是否死亡</td>
             <td>
                 <select name="alreadyDead" class="easyui-combobox" style="width: 165px;"
@@ -39,12 +43,12 @@
                     <option value="1">已死亡</option>
                 </select>
             </td>
-        </tr>
-        <tr>
-            <td>创建时间(起)</td>
-            <td><input name="createStartTime" class="easyui-datetimebox"/></td>
-            <td>创建时间(止)</td>
-            <td><input name="createEndTime" class="easyui-datetimebox"/></td>
+            <td>创建时间</td>
+            <td colspan="3">
+                <input name="createStartTime" class="easyui-datetimebox"/>
+                至
+                <input name="createEndTime" class="easyui-datetimebox"/>
+            </td>
         </tr>
         <tr>
             <td style="text-align:right" colspan="3">

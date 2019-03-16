@@ -137,10 +137,8 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         }
 
         // 校验消息是否存在
-        Message message = new Message();
-        message.setId(messageId);
-        int count = mapper.count(message);
-        if (0 == count) {
+        Message message = mapper.selectByPrimaryKey(messageId);
+        if (message == null) {
             throw new CheckException("message not exist");
         }
 
@@ -172,7 +170,11 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     }
 
     @Override
-    public void resendAllDeadMessageByQueueName(String consumerQueue) {
+    public int resendAllDeadMessageByQueueName(String consumerQueue) {
+        if(StringUtils.isBlank(consumerQueue)){
+            throw new CheckException("consumerQueue is empty");
+        }
+
         // 构造查询条件
         Message condition = new Message();
         condition.setConsumerQueue(consumerQueue);
@@ -182,6 +184,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         // 计数标识，首页需要查询死亡消息总数
         boolean countFlag = true;
         int pages;
+        int totalCount = 0;
 
         for (int pageNum = 1; ; pageNum++) {
             // 分页查询死亡消息
@@ -191,11 +194,15 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             // 遍历消息列表，重发消息
             list.forEach(this::resendMessage);
 
+            // 计数
+            totalCount += list.size();
+
             pages = pageInfo.getPages();
             if (pageNum >= pages) {
                 break;
             }
             countFlag = false;
         }
+        return totalCount;
     }
 }

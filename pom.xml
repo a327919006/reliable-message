@@ -59,9 +59,6 @@
         <zkclient.version>0.1</zkclient.version>
         <curator.version>4.0.1</curator.version>
 
-        <!--hibernate-validator-->
-        <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
-
         <!--guava-->
         <guava.version>27.0.1-jre</guava.version>
 

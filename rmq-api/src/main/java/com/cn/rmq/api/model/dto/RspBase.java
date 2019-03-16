@@ -1,14 +1,18 @@
 package com.cn.rmq.api.model.dto;
 
+import com.cn.rmq.api.model.Constants;
+
 import java.io.Serializable;
 
 /**
  * <p>Title: RspBase</p>
  * <p>Description: Http操作结果对象</p>
+ * @author Chen Nan
+ * @date 2019/3/11.
  */
 public class RspBase implements Serializable {
     private int code;
-    private String msg;
+    private String msg = Constants.MSG_SUCCESS;
     private Object data;
 
     public RspBase() {
