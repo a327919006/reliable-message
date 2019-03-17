@@ -1,8 +1,8 @@
 package com.cn.rmq.dal.mapper;
 
 import com.cn.rmq.api.cms.model.dto.queue.CmsQueueListDto;
-import com.cn.rmq.api.cms.model.po.Queue;
 import com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo;
+import com.cn.rmq.api.model.po.Queue;
 
 import java.util.List;
 

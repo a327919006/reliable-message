@@ -1,5 +1,8 @@
 package com.cn.rmq.cms.base;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import com.cn.rmq.api.exceptions.CheckException;
+import com.cn.rmq.api.exceptions.RmqException;
 import com.cn.rmq.api.model.dto.RspBase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,7 +21,11 @@ import java.util.List;
 /**
  * <p>Title: ControllerExceptionHandler</p>
  * <p>Description: 控制器异常处理</p>
+ *
+ * @author Chen Nan
+ * @date 2019/3/17.
  */
+@SuppressWarnings("unchecked")
 @ControllerAdvice
 @Slf4j
 public class ControllerExceptionHandler {
@@ -55,6 +62,14 @@ public class ControllerExceptionHandler {
                 FieldError error = errors.get(0);
                 retBean.code(1).msg(error.getField() + error.getDefaultMessage());
             }
+        } else if (ExceptionUtil.isCausedBy(e, CheckException.class)) {
+            CheckException exception = (CheckException) ExceptionUtil.getCausedBy(e, CheckException.class);
+            log.error("【校验异常】:" + exception.getMsg());
+            retBean.code(exception.getCode()).msg(exception.getMsg());
+        } else if (ExceptionUtil.isCausedBy(e, RmqException.class)) {
+            RmqException exception = (RmqException) ExceptionUtil.getCausedBy(e, RmqException.class);
+            log.error("【RMQ异常】:" + exception.getMsg(), e);
+            retBean.code(exception.getCode()).msg(exception.getMsg());
         } else {
             log.error(e.getMessage(), e);
             retBean.code(1).msg("系统异常");

@@ -26,13 +26,23 @@
                     width: 30
                 },
                 {
-                    field: 'createTime',
-                    title: '创建时间',
+                    field: 'checkUrl',
+                    title: '消息确认url',
+                    width: 80
+                },
+                {
+                    field: 'checkTimeout',
+                    title: '确认超时时长(毫秒)',
                     width: 30
                 },
                 {
                     field: 'createTime',
                     title: '创建时间',
+                    width: 30
+                },
+                {
+                    field: 'updateTime',
+                    title: '更新时间',
                     width: 30
                 },
                 {

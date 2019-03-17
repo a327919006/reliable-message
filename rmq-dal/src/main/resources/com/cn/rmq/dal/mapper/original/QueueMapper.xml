@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.rmq.dal.mapper.QueueMapper" >
-  <resultMap id="BaseResultMap" type="com.cn.rmq.api.cms.model.po.Queue" >
+  <resultMap id="BaseResultMap" type="com.cn.rmq.api.model.po.Queue" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="business_name" property="businessName" jdbcType="VARCHAR" />
     <result column="consumer_queue" property="consumerQueue" jdbcType="VARCHAR" />
+    <result column="check_url" property="checkUrl" jdbcType="VARCHAR" />
+    <result column="check_timeout" property="checkTimeout" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, business_name, consumer_queue, create_user, create_time, update_user, update_time
+    id, business_name, consumer_queue, check_url, check_timeout, create_user, create_time, 
+    update_user, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -23,15 +26,17 @@
     delete from t_queue
     where id = #{id,jdbcType=CHAR}
   </delete>
-  <insert id="insert" parameterType="com.cn.rmq.api.cms.model.po.Queue" >
+  <insert id="insert" parameterType="com.cn.rmq.api.model.po.Queue" >
     insert into t_queue (id, business_name, consumer_queue, 
-      create_user, create_time, update_user, 
-      update_time)
+      check_url, check_timeout, create_user, 
+      create_time, update_user, update_time
+      )
     values (#{id,jdbcType=CHAR}, #{businessName,jdbcType=VARCHAR}, #{consumerQueue,jdbcType=VARCHAR}, 
-      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{checkUrl,jdbcType=VARCHAR}, #{checkTimeout,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.cn.rmq.api.cms.model.po.Queue" >
+  <insert id="insertSelective" parameterType="com.cn.rmq.api.model.po.Queue" >
     insert into t_queue
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -42,6 +47,12 @@
       </if>
       <if test="consumerQueue != null" >
         consumer_queue,
+      </if>
+      <if test="checkUrl != null" >
+        check_url,
+      </if>
+      <if test="checkTimeout != null" >
+        check_timeout,
       </if>
       <if test="createUser != null" >
         create_user,
@@ -66,6 +77,12 @@
       <if test="consumerQueue != null" >
         #{consumerQueue,jdbcType=VARCHAR},
       </if>
+      <if test="checkUrl != null" >
+        #{checkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTimeout != null" >
+        #{checkTimeout,jdbcType=INTEGER},
+      </if>
       <if test="createUser != null" >
         #{createUser,jdbcType=VARCHAR},
       </if>
@@ -80,7 +97,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cn.rmq.api.cms.model.po.Queue" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.rmq.api.model.po.Queue" >
     update t_queue
     <set >
       <if test="businessName != null" >
@@ -88,6 +105,12 @@
       </if>
       <if test="consumerQueue != null" >
         consumer_queue = #{consumerQueue,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUrl != null" >
+        check_url = #{checkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTimeout != null" >
+        check_timeout = #{checkTimeout,jdbcType=INTEGER},
       </if>
       <if test="createUser != null" >
         create_user = #{createUser,jdbcType=VARCHAR},
@@ -104,10 +127,12 @@
     </set>
     where id = #{id,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cn.rmq.api.cms.model.po.Queue" >
+  <update id="updateByPrimaryKey" parameterType="com.cn.rmq.api.model.po.Queue" >
     update t_queue
     set business_name = #{businessName,jdbcType=VARCHAR},
       consumer_queue = #{consumerQueue,jdbcType=VARCHAR},
+      check_url = #{checkUrl,jdbcType=VARCHAR},
+      check_timeout = #{checkTimeout,jdbcType=INTEGER},
       create_user = #{createUser,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user = #{updateUser,jdbcType=VARCHAR},

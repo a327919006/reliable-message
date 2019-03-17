@@ -24,13 +24,19 @@ public class CmsQueueVo implements Serializable {
 
     private String consumerQueue;
 
-    private String createUser;
+    private String checkUrl;
+
+    private Integer checkTimeout;
 
     @JsonSerialize(using = DateTimeSerializer.class)
     private Date createTime;
 
-    private String updateUser;
-
     @JsonSerialize(using = DateTimeSerializer.class)
     private Date updateTime;
+
+    private String createUser;
+
+    private String updateUser;
+
+
 }

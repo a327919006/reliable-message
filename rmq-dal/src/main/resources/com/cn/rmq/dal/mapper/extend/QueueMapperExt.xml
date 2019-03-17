@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.rmq.dal.mapper.QueueMapper">
 
-    <resultMap id="CmsQueueVo" type="com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo" >
+    <resultMap id="CmsQueueVo" type="com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo"  extends="BaseResultMap">
         <id column="id" property="id" jdbcType="CHAR" />
         <result column="business_name" property="businessName" jdbcType="VARCHAR" />
         <result column="consumer_queue" property="consumerQueue" jdbcType="VARCHAR" />
+        <result column="check_url" property="checkUrl" jdbcType="VARCHAR" />
+        <result column="check_timeout" property="checkTimeout" jdbcType="INTEGER" />
         <result column="create_user" property="createUser" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_user" property="updateUser" jdbcType="VARCHAR" />

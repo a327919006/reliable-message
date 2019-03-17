@@ -1,8 +1,10 @@
-package com.cn.rmq.api.cms.model.dto.queue;
+package com.cn.rmq.api.model.dto.queue;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -13,14 +15,21 @@ import java.io.Serializable;
  * @date 2019/3/16.
  */
 @Data
-public class CmsQueueAddDto implements Serializable {
+public class QueueUpdateDto implements Serializable {
+    @NotBlank
+    private String id;
+
     @NotBlank
     private String businessName;
 
     @NotBlank
     private String consumerQueue;
 
-    private String createUser;
+    @NotBlank
+    private String checkUrl;
+
+    @NotNull
+    private Integer checkTimeout;
 
     private String updateUser;
 }

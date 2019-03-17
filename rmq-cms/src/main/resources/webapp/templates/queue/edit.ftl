@@ -41,18 +41,40 @@
         <tr>
             <td>业务名称<span class="span_required">*</span></td>
             <td>
-                <input name="businessName" class="easyui-validatebox" maxlength="64" style="width: 165px;"
+                <input name="businessName" class="easyui-validatebox" maxlength="32" style="width: 165px;"
                        data-options="
                        required: true,
                        missingMessage: '请填写业务名称'
                        "/>
             </td>
-            <td>业务名称<span class="span_required">*</span></td>
+            <td>消费队列<span class="span_required">*</span></td>
             <td>
                 <input name="consumerQueue" class="easyui-validatebox" maxlength="64" style="width: 165px;"
                        data-options="
                        required: true,
-                       missingMessage: '请填写业务名称'
+                       missingMessage: '请填写消费队列'
+                       "/>
+            </td>
+        </tr>
+        <tr>
+            <td>消息确认url<span class="span_required">*</span></td>
+            <td colspan="3">
+                <input name="checkUrl" class="easyui-validatebox" maxlength="256" style="width: 430px;"
+                       data-options="
+                       required: true,
+                       missingMessage: '请填写消息确认url'
+                       "/>
+            </td>
+        </tr>
+        <tr>
+            <td>确认超时时长(毫秒)<span class="span_required">*</span></td>
+            <td>
+                <input name="checkTimeout" class="easyui-numberbox" style="width: 165px;"
+                       data-options="
+                       required: true,
+                       missingMessage: '请填写确认超时时长',
+                       min: 1,
+                       max: 99999
                        "/>
             </td>
         </tr>
