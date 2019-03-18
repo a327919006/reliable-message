@@ -3,15 +3,6 @@
 <mapper namespace="com.cn.rmq.dal.mapper.QueueMapper">
 
     <resultMap id="CmsQueueVo" type="com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo"  extends="BaseResultMap">
-        <id column="id" property="id" jdbcType="CHAR" />
-        <result column="business_name" property="businessName" jdbcType="VARCHAR" />
-        <result column="consumer_queue" property="consumerQueue" jdbcType="VARCHAR" />
-        <result column="check_url" property="checkUrl" jdbcType="VARCHAR" />
-        <result column="check_timeout" property="checkTimeout" jdbcType="INTEGER" />
-        <result column="create_user" property="createUser" jdbcType="VARCHAR" />
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-        <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     </resultMap>
 
     <sql id="condition">
@@ -24,6 +15,14 @@
     </sql>
 
     <select id="get" parameterType="Queue" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_queue
+        WHERE 1=1
+        <include refid="condition"/>
+        limit 1
+    </select>
+
+    <select id="list" parameterType="Queue" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List" />
         FROM t_queue
         WHERE 1=1

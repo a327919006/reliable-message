@@ -31,6 +31,11 @@
                     width: 80
                 },
                 {
+                    field: 'checkDuration',
+                    title: '确认条件(毫秒)',
+                    width: 30
+                },
+                {
                     field: 'checkTimeout',
                     title: '确认超时时长(毫秒)',
                     width: 30
@@ -48,12 +53,12 @@
                 {
                     field: 'createUser',
                     title: '创建人',
-                    width: 30
+                    width: 20
                 },
                 {
                     field: 'updateUser',
                     title: '操作人',
-                    width: 30
+                    width: 20
                 },
                 {
                     field: 'operation',

@@ -26,6 +26,8 @@ public class CmsQueueVo implements Serializable {
 
     private String checkUrl;
 
+    private Integer checkDuration;
+
     private Integer checkTimeout;
 
     @JsonSerialize(using = DateTimeSerializer.class)

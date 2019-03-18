@@ -9,7 +9,6 @@
 </script>
 
 <form id="message_detail_form" method="post" class="field-form">
-    <input type="hidden" id="id" name="id"/>
     <table>
         <tr>
             <td>消息ID</td>

@@ -29,6 +29,9 @@ public class QueueUpdateDto implements Serializable {
     private String checkUrl;
 
     @NotNull
+    private Integer checkDuration;
+
+    @NotNull
     private Integer checkTimeout;
 
     private String updateUser;

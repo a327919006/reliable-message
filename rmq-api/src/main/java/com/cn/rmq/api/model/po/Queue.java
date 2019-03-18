@@ -12,6 +12,8 @@ public class Queue implements Serializable {
 
     private String checkUrl;
 
+    private Integer checkDuration;
+
     private Integer checkTimeout;
 
     private String createUser;
@@ -52,6 +54,14 @@ public class Queue implements Serializable {
 
     public void setCheckUrl(String checkUrl) {
         this.checkUrl = checkUrl;
+    }
+
+    public Integer getCheckDuration() {
+        return checkDuration;
+    }
+
+    public void setCheckDuration(Integer checkDuration) {
+        this.checkDuration = checkDuration;
     }
 
     public Integer getCheckTimeout() {

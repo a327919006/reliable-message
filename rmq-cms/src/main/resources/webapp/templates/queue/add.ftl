@@ -65,6 +65,19 @@
             </td>
         </tr>
         <tr>
+            <td>确认条件(毫秒)<span class="span_required">*</span></td>
+            <td colspan="3">
+                <input name="checkDuration" class="easyui-numberbox" style="width: 165px;"
+                       data-options="
+                       required: true,
+                       missingMessage: '请填写确认确认条件',
+                       min: 1,
+                       max: 99999999
+                       "/>
+                注：多长时间未确认的消息需进行确认
+            </td>
+        </tr>
+        <tr>
             <td>确认超时时长(毫秒)<span class="span_required">*</span></td>
             <td>
                 <input name="checkTimeout" class="easyui-numberbox" style="width: 165px;"

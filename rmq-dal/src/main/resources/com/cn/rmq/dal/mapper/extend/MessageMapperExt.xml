@@ -2,15 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.rmq.dal.mapper.MessageMapper">
 
-    <resultMap id="CmsMessageVo" type="com.cn.rmq.api.cms.model.vo.message.CmsMessageVo" >
-        <id column="id" property="id" jdbcType="CHAR" />
-        <result column="consumer_queue" property="consumerQueue" jdbcType="VARCHAR" />
-        <result column="resend_times" property="resendTimes" jdbcType="SMALLINT" />
-        <result column="already_dead" property="alreadyDead" jdbcType="TINYINT" />
-        <result column="status" property="status" jdbcType="TINYINT" />
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-        <result column="message_body" property="messageBody" jdbcType="LONGVARCHAR" />
+    <resultMap id="CmsMessageVo" type="com.cn.rmq.api.cms.model.vo.message.CmsMessageVo" extends="ResultMapWithBLOBs">
     </resultMap>
 
     <sql id="condition">

@@ -1,0 +1,10 @@
+
+dubbo:
+  application:
+    name: rmq-check
+    logger: slf4j
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  scan:
+    base-packages: com.cn.rmq.check.schedule
+

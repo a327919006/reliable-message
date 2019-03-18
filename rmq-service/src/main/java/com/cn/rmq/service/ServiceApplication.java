@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
  * 服务层启动类
  *
  * @author Chen Nan
+ * @date 2019/3/11.
  */
 @SpringBootApplication
 @MapperScan("com.cn.rmq.dal.mapper")
