@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rmq-check</artifactId>
+    <artifactId>rmq-schedule</artifactId>
 
     <dependencies>
         <!-- spring boot -->
@@ -17,7 +17,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
+        <!-- configuration -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
         <!--dubbo-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -44,19 +48,19 @@
         <!-- modules -->
         <dependency>
             <groupId>com.cn.rmq</groupId>
-            <artifactId>rmq-cms-api</artifactId>
-            <version>${rmq-cms-api.version}</version>
+            <artifactId>rmq-schedule-api</artifactId>
+            <version>${rmq-schedule-api.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>rmq-check</finalName>
+        <finalName>rmq-schedule</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cn.rmq.check.CheckApplication</mainClass>
+                    <mainClass>com.cn.rmq.schedule.ScheduleApplication</mainClass>
                     <outputDirectory>../target</outputDirectory>
                 </configuration>
                 <executions>

@@ -8,3 +8,8 @@ dubbo:
   scan:
     base-packages: com.cn.rmq.check.schedule
 
+schedule:
+  check:
+    max-duration-times: 10
+  recover:
+    max-times: 6

@@ -14,7 +14,8 @@
         <module>rmq-service</module>
         <module>rmq-cms</module>
         <module>rmq-cms-api</module>
-        <module>rmq-check</module>
+        <module>rmq-schedule</module>
+        <module>rmq-schedule-api</module>
     </modules>
 
     <properties>
@@ -25,11 +26,12 @@
         <!--model-->
         <rmq-api.version>1.0</rmq-api.version>
         <rmq-cms-api.version>1.0</rmq-cms-api.version>
+        <rmq-schedule-api.version>1.0</rmq-schedule-api.version>
         <rmq-dal.version>1.0</rmq-dal.version>
         <rmq-service.version>1.0</rmq-service.version>
 
         <!--spring boot-->
-        <spring-boot.version>2.1.2.RELEASE</spring-boot.version>
+        <spring-boot.version>2.1.3.RELEASE</spring-boot.version>
         <mybatis-spring-boot-starter.version>1.3.2</mybatis-spring-boot-starter.version>
         <spring-boot-starter-dubbo.version>1.0.0</spring-boot-starter-dubbo.version>
         <pagehelper-spring-boot-starter.version>1.2.10</pagehelper-spring-boot-starter.version>
@@ -96,6 +98,13 @@
                 <artifactId>spring-boot-starter-validation</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+            <!-- configuration -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
             <!-- mybatis -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>

@@ -168,41 +168,4 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         message.setUpdateTime(new Date());
         mapper.updateByPrimaryKeySelective(message);
     }
-
-    @Override
-    public int resendAllDeadMessageByQueueName(String consumerQueue) {
-        if(StringUtils.isBlank(consumerQueue)){
-            throw new CheckException("consumerQueue is empty");
-        }
-
-        // 构造查询条件
-        Message condition = new Message();
-        condition.setConsumerQueue(consumerQueue);
-        condition.setAlreadyDead(AlreadyDeadEnum.NO.getValue());
-
-        int pageSize = 100;
-        // 计数标识，首页需要查询死亡消息总数
-        boolean countFlag = true;
-        int pages;
-        int totalCount = 0;
-
-        for (int pageNum = 1; ; pageNum++) {
-            // 分页查询死亡消息
-            Page<Message> pageInfo = PageHelper.startPage(pageNum, pageSize, countFlag);
-            List<Message> list = mapper.list(condition);
-
-            // 遍历消息列表，重发消息
-            list.forEach(this::resendMessage);
-
-            // 计数
-            totalCount += list.size();
-
-            pages = pageInfo.getPages();
-            if (pageNum >= pages) {
-                break;
-            }
-            countFlag = false;
-        }
-        return totalCount;
-    }
 }

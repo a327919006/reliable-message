@@ -21,10 +21,10 @@ public interface BaseMapper<T, PK> {
 
     /**
      * 根据条件删除
-     * @param record 删除条件
+     * @param record 对象参数
      * @return 操作数量
      */
-    int deleteByCondition(T record);
+    int delete(T record);
 
     /**
      * 插入数据
@@ -64,14 +64,14 @@ public interface BaseMapper<T, PK> {
 
     /**
      * 获取数量
-     * @param record 对象数据
+     * @param record 对象参数
      * @return 数量
      */
     int count(T record);
 
     /**
      * 获取单条数据
-     * @param record 对象数据
+     * @param record 对象参数
      * @return 对象
      */
     T get(T record);
@@ -82,4 +82,11 @@ public interface BaseMapper<T, PK> {
      * @return 对象列表
      */
     List<T> list(T record);
+
+    /**
+     * 获取列表
+     * @param record 参数
+     * @return 对象列表
+     */
+    List<T> listByCondition(Object record);
 }

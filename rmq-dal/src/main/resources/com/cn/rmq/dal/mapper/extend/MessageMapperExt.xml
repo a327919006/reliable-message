@@ -41,6 +41,29 @@
         <include refid="condition"/>
     </select>
 
+    <select id="listByCondition" resultMap="ResultMapWithBLOBs">
+        SELECT
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        FROM t_message
+        WHERE 1=1
+        <include refid="condition"/>
+        <choose>
+            <when test="createStartTime != null and createEndTime != null">
+                AND create_time >= #{createStartTime,jdbcType=VARCHAR}
+                AND create_time &lt;= #{createEndTime,jdbcType=VARCHAR}
+            </when>
+            <when test="createStartTime != null and createEndTime == null">
+                AND create_time >= #{createStartTime,jdbcType=VARCHAR}
+                AND create_time &lt;= NOW()
+            </when>
+            <when test="createStartTime == null and createEndTime != null">
+                AND create_time &lt;= #{createEndTime,jdbcType=VARCHAR}
+            </when>
+        </choose>
+    </select>
+
     <select id="cmsListPage" parameterType="com.cn.rmq.api.cms.model.dto.message.CmsMessageListDto"
             resultMap="CmsMessageVo">
         SELECT <include refid="Base_Column_List" />

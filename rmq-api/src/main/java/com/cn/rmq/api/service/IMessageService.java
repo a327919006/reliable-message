@@ -7,7 +7,7 @@ import com.cn.rmq.api.model.po.Message;
  *
  * @author Chen Nan
  */
-public interface IMessageService extends IBaseService<Message, String> {
+public interface IMessageService {
     /**
      * 创建预发送消息
      *
@@ -60,12 +60,4 @@ public interface IMessageService extends IBaseService<Message, String> {
      * @param messageId 消息ID
      */
     void setMessageToAlreadyDead(String messageId);
-
-    /**
-     * 重发某个消息队列中的全部已死亡的消息
-     *
-     * @param consumerQueue 消费队列
-     * @return 重发的消息数量
-     */
-    int resendAllDeadMessageByQueueName(String consumerQueue);
 }

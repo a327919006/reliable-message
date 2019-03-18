@@ -19,4 +19,12 @@ public interface ICmsMessageService extends IBaseService<Message, String> {
      * @return 数据列表
      */
     DataGrid listPage(CmsMessageListDto req);
+
+    /**
+     * 重发某个消息队列中的全部已死亡的消息
+     *
+     * @param consumerQueue 消费队列
+     * @return 重发的消息数量
+     */
+    int resendAllDeadMessageByQueueName(String consumerQueue);
 }

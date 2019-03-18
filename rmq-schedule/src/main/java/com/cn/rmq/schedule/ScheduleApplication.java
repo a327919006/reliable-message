@@ -1,4 +1,4 @@
-package com.cn.rmq.check;
+package com.cn.rmq.schedule;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication
 @EnableScheduling
-public class CheckApplication {
+public class ScheduleApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CheckApplication.class, args);
+        SpringApplication.run(ScheduleApplication.class, args);
     }
 }

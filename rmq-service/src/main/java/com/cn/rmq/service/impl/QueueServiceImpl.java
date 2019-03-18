@@ -1,11 +1,11 @@
 package com.cn.rmq.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.cn.rmq.api.cms.service.ICmsMessageService;
 import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.model.dto.queue.QueueAddDto;
 import com.cn.rmq.api.model.dto.queue.QueueUpdateDto;
 import com.cn.rmq.api.model.po.Queue;
-import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.api.service.IQueueService;
 import com.cn.rmq.dal.mapper.QueueMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
         implements IQueueService {
 
     @Reference
-    private IMessageService messageService;
+    private ICmsMessageService cmsMessageService;
 
     @Override
     public void add(QueueAddDto req) {
@@ -72,6 +72,6 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
             throw new CheckException("queue not exist");
         }
 
-        return messageService.resendAllDeadMessageByQueueName(queue.getConsumerQueue());
+        return cmsMessageService.resendAllDeadMessageByQueueName(queue.getConsumerQueue());
     }
 }
