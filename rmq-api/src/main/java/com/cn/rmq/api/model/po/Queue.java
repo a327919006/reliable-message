@@ -1,7 +1,7 @@
 package com.cn.rmq.api.model.po;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Queue implements Serializable {
     private String id;
@@ -18,11 +18,11 @@ public class Queue implements Serializable {
 
     private String createUser;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String updateUser;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     public String getId() {
         return id;
@@ -80,11 +80,11 @@ public class Queue implements Serializable {
         this.createUser = createUser;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -96,11 +96,11 @@ public class Queue implements Serializable {
         this.updateUser = updateUser;
     }
 
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 }

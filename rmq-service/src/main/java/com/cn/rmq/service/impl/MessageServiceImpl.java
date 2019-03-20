@@ -1,14 +1,10 @@
 package com.cn.rmq.service.impl;
 
-import cn.hutool.core.util.IdUtil;
 import com.cn.rmq.api.enums.AlreadyDeadEnum;
-import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.dal.mapper.MessageMapper;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
@@ -16,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 消息服务实现
@@ -32,92 +28,6 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
 
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
-
-    @Override
-    public String createPreMessage(String consumerQueue, String messageBody) {
-        if (StringUtils.isBlank(consumerQueue)) {
-            throw new CheckException("consumerQueue is empty");
-        }
-        if (StringUtils.isBlank(messageBody)) {
-            throw new CheckException("messageBody is empty");
-        }
-
-        String id = IdUtil.simpleUUID();
-
-        // 插入预发送消息记录
-        Message message = new Message();
-        message.setId(id);
-        message.setConsumerQueue(consumerQueue);
-        message.setMessageBody(messageBody);
-        message.setCreateTime(new Date());
-        message.setUpdateTime(new Date());
-        mapper.insertSelective(message);
-
-        return id;
-    }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public void confirmAndSendMessage(String messageId) {
-        if (StringUtils.isBlank(messageId)) {
-            throw new CheckException("messageId is empty");
-        }
-
-        // 获取消息
-        Message message = mapper.selectByPrimaryKey(messageId);
-        if (message == null) {
-            throw new CheckException("message not exist");
-        }
-
-        // 更新消息状态为发送中
-        message = new Message();
-        message.setId(messageId);
-        message.setStatus(MessageStatusEnum.SENDING.getValue());
-        message.setUpdateTime(new Date());
-        mapper.updateByPrimaryKeySelective(message);
-
-        // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(message.getConsumerQueue(), message.getMessageBody());
-    }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public void saveAndSendMessage(String consumerQueue, String messageBody) {
-        if (StringUtils.isBlank(consumerQueue)) {
-            throw new CheckException("consumerQueue is empty");
-        }
-        if (StringUtils.isBlank(messageBody)) {
-            throw new CheckException("messageBody is empty");
-        }
-
-        String id = IdUtil.simpleUUID();
-
-        // 插入发送消息记录
-        Message message = new Message();
-        message.setId(id);
-        message.setConsumerQueue(consumerQueue);
-        message.setMessageBody(messageBody);
-        message.setStatus(MessageStatusEnum.SENDING.getValue());
-        message.setCreateTime(new Date());
-        message.setUpdateTime(new Date());
-        mapper.insertSelective(message);
-
-        // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(consumerQueue, messageBody);
-    }
-
-    @Override
-    public void directSendMessage(String consumerQueue, String messageBody) {
-        if (StringUtils.isBlank(consumerQueue)) {
-            throw new CheckException("consumerQueue is empty");
-        }
-        if (StringUtils.isBlank(messageBody)) {
-            throw new CheckException("messageBody is empty");
-        }
-
-        // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(consumerQueue, messageBody);
-    }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
@@ -165,7 +75,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
 
         // 更新消息死亡
         message.setAlreadyDead(AlreadyDeadEnum.YES.getValue());
-        message.setUpdateTime(new Date());
+        message.setUpdateTime(LocalDateTime.now());
         mapper.updateByPrimaryKeySelective(message);
     }
 }

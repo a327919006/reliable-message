@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -30,11 +31,10 @@ public class CmsQueueVo implements Serializable {
 
     private Integer checkTimeout;
 
-    @JsonSerialize(using = DateTimeSerializer.class)
-    private Date createTime;
+    @JsonSerialize
+    private LocalDateTime createTime;
 
-    @JsonSerialize(using = DateTimeSerializer.class)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     private String createUser;
 

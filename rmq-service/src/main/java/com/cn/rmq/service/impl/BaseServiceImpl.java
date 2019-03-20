@@ -27,6 +27,10 @@ public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
         return mapper.deleteByPrimaryKey(id);
     }
 
+    public int delete(T record) {
+        return mapper.delete(record);
+    }
+
     public int insert(T record) {
         return mapper.insert(record);
     }
@@ -57,5 +61,9 @@ public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
 
     public List<T> list(T record) {
         return mapper.list(record);
+    }
+
+    public List<T> listByCondition(Object record) {
+        return mapper.listByCondition(record);
     }
 }

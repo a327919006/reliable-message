@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -32,11 +33,9 @@ public class CmsMessageVo implements Serializable {
     private Byte status;
     private String statusName;
 
-    @JsonSerialize(using = DateTimeSerializer.class)
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    @JsonSerialize(using = DateTimeSerializer.class)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     private String messageBody;
 

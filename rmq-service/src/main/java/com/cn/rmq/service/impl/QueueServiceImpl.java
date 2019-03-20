@@ -13,6 +13,7 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -40,8 +41,8 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
 
         BeanUtils.copyProperties(req, queue);
         queue.setId(IdUtil.simpleUUID());
-        queue.setCreateTime(new Date());
-        queue.setUpdateTime(new Date());
+        queue.setCreateTime(LocalDateTime.now());
+        queue.setUpdateTime(LocalDateTime.now());
         mapper.insertSelective(queue);
     }
 
@@ -61,7 +62,7 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
         }
 
         BeanUtils.copyProperties(req, queue);
-        queue.setUpdateTime(new Date());
+        queue.setUpdateTime(LocalDateTime.now());
         mapper.updateByPrimaryKeySelective(queue);
     }
 
