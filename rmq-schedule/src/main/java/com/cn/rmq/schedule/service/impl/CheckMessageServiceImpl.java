@@ -47,12 +47,12 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         // 获取消费队列列表
         List<Queue> queueList = queueService.list(new Queue());
         for (Queue queue : queueList) {
-            checkQueueMessage(queue);
+            checkQueueWaitingMessage(queue);
         }
     }
 
     @Override
-    public void checkQueueMessage(Queue queue) {
+    public void checkQueueWaitingMessage(Queue queue) {
         // 设置消息查询条件
         ScheduleMessageDto condition = createCondition(queue);
         log.info("condition=" + condition);
