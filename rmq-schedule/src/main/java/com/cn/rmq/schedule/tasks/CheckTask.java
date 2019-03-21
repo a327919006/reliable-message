@@ -26,7 +26,7 @@ public class CheckTask {
     public void check() {
         log.info("【CheckTask】start");
 
-        checkMessageService.checkMessage();
+        checkMessageService.checkWaitingMessage();
 
         log.info("【CheckTask】end");
     }

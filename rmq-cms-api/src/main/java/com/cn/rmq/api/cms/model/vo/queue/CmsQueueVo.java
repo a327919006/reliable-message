@@ -31,7 +31,6 @@ public class CmsQueueVo implements Serializable {
 
     private Integer checkTimeout;
 
-    @JsonSerialize
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

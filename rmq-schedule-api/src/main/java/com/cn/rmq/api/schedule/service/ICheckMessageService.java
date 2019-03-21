@@ -1,5 +1,7 @@
 package com.cn.rmq.api.schedule.service;
 
+import com.cn.rmq.api.model.po.Queue;
+
 /**
  * <p>Title:</p>
  * <p>Description:
@@ -13,5 +15,7 @@ public interface ICheckMessageService {
     /**
      * 处理长时间未确认的消息，和上游业务系统确认是否发送该消息
      */
-    void checkMessage();
+    void checkWaitingMessage();
+
+    void checkQueueMessage(Queue queue);
 }
