@@ -6,10 +6,10 @@ dubbo:
   registry:
     address: zookeeper://127.0.0.1:2181
   scan:
-    base-packages: com.cn.rmq.check.schedule
+    base-packages: com.cn.rmq.schedule.service.impl
 
 schedule:
   check:
-    max-duration-times: 10
+    max-duration-times: 1000
   recover:
     max-times: 6

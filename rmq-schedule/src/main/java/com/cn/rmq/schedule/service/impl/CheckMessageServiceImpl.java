@@ -1,6 +1,5 @@
 package com.cn.rmq.schedule.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONUtil;
 import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.model.po.Message;
@@ -12,16 +11,12 @@ import com.cn.rmq.api.service.IQueueService;
 import com.cn.rmq.api.utils.DateFormatUtils;
 import com.cn.rmq.schedule.config.CheckTaskConfig;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -51,24 +46,38 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         }
     }
 
-    @Override
-    public void checkQueueWaitingMessage(Queue queue) {
+    /**
+     * 处理某个队列长时间未确认的消息
+     *
+     * @param queue 队列信息
+     */
+    private void checkQueueWaitingMessage(Queue queue) {
         // 设置消息查询条件
         ScheduleMessageDto condition = createCondition(queue);
         log.info("condition=" + condition);
 
         // 获取预发送消息列表
 
-//            List<Message> messageList = messageService.list(condition);
-//            for (Message message : messageList) {
-//                log.info("msaage=" + JSONUtil.toJsonStr(message));
-//            }
+        List<Message> messageList = messageService.listByCondition(condition);
+        for (Message message : messageList) {
+            log.info("message=" + JSONUtil.toJsonStr(message));
+            checkMessage(queue, message);
+        }
     }
 
     /**
-     * 设置查询条件
+     * 处理某个未确认的消息
      *
-     * @param queue     队列信息
+     * @param message 消息信息
+     */
+    private void checkMessage(Queue queue, Message message) {
+
+    }
+
+    /**
+     * 创建消息查询条件
+     *
+     * @param queue 队列信息
      */
     private ScheduleMessageDto createCondition(Queue queue) {
         ScheduleMessageDto condition = new ScheduleMessageDto();

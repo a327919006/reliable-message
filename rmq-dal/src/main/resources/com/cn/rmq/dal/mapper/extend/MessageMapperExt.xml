@@ -15,6 +15,9 @@
         <if test="alreadyDead != null">
             AND already_dead = #{alreadyDead,jdbcType=TINYINT}
         </if>
+        <if test="status != null">
+            AND status = #{status,jdbcType=TINYINT}
+        </if>
     </sql>
 
     <update id="addResendTimes" parameterType="java.lang.String">
