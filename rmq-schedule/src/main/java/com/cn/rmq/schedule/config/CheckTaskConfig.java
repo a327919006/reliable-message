@@ -17,5 +17,20 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "schedule.check")
 @Data
 public class CheckTaskConfig {
-    private Integer maxDurationTimes;
+    /**
+     * 线程池最小线程数
+     */
+    private Integer corePoolSize = 10;
+    /**
+     * 线程池最大线程数
+     */
+    private Integer maxPoolSize = 100;
+    /**
+     * 线程运行的空闲时间
+     */
+    private Integer keepAliveSeconds = 60;
+    /**
+     * 缓存队列大小
+     */
+    private Integer queueCapacity = 10;
 }

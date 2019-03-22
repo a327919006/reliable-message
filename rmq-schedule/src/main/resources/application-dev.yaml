@@ -10,6 +10,9 @@ dubbo:
 
 schedule:
   check:
-    max-duration-times: 1000
+    core-pool-size: 1
+    max-pool-size: 1
+    keep-alive-seconds: 60
+    queue-capacity: 1
   recover:
     max-times: 6

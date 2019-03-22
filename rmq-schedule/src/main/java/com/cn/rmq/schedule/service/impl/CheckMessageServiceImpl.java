@@ -1,15 +1,19 @@
 package com.cn.rmq.schedule.service.impl;
 
+import cn.hutool.http.HttpException;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.cn.rmq.api.enums.MessageStatusEnum;
+import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.model.po.Queue;
 import com.cn.rmq.api.schedule.service.ICheckMessageService;
 import com.cn.rmq.api.schedule.service.ScheduleMessageDto;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.api.service.IQueueService;
+import com.cn.rmq.api.service.IRmqService;
 import com.cn.rmq.api.utils.DateFormatUtils;
-import com.cn.rmq.schedule.config.CheckTaskConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
@@ -18,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Title:</p>
@@ -33,9 +40,11 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     @Reference
     private IQueueService queueService;
     @Reference
+    private IRmqService rmqService;
+    @Reference
     private IMessageService messageService;
     @Autowired
-    private CheckTaskConfig checkTaskConfig;
+    private ThreadPoolExecutor executor;
 
     @Override
     public void checkWaitingMessage() {
@@ -43,6 +52,13 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         List<Queue> queueList = queueService.list(new Queue());
         for (Queue queue : queueList) {
             checkQueueWaitingMessage(queue);
+        }
+        log.info("开始等待子线程");
+        try {
+            executor.awaitTermination(10000, TimeUnit.MILLISECONDS);
+            log.info("等待子线程完成");
+        } catch (InterruptedException e) {
+            log.error("【CheckTask】InterruptedException", e);
         }
     }
 
@@ -60,8 +76,11 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
 
         List<Message> messageList = messageService.listByCondition(condition);
         for (Message message : messageList) {
-            log.info("message=" + JSONUtil.toJsonStr(message));
-            checkMessage(queue, message);
+            try {
+                executor.execute(() -> checkMessage(queue, message));
+            } catch (RejectedExecutionException e) {
+                log.error("【CheckTask】Thread pool exhaustion:" + e.getMessage());
+            }
         }
     }
 
@@ -71,7 +90,31 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
      * @param message 消息信息
      */
     private void checkMessage(Queue queue, Message message) {
+        try {
+            log.info("【CheckTask】message={}", JSONUtil.toJsonStr(message));
+            String checkRsp = HttpUtil.post(queue.getCheckUrl(), message.getMessageBody(), queue.getCheckTimeout());
+            log.info("【CheckTask】messageId={}, checkRsp={}", message.getId(), checkRsp);
 
+            JSONObject jsonObject = JSONUtil.parseObj(checkRsp);
+            Integer code = jsonObject.getInt(Constants.KEY_CODE);
+            if (code.equals(Constants.CODE_SUCCESS)) {
+                Integer data = jsonObject.getInt(Constants.KEY_DATA);
+                if (data == 0) {
+                    log.info("【CheckTask】confirm,messageId={}", message.getId());
+                    rmqService.confirmAndSendMessage(message.getId());
+                } else {
+                    log.info("【CheckTask】delete,messageId={}", message.getId());
+                    messageService.deleteByPrimaryKey(message.getId());
+                }
+            } else {
+                String msg = jsonObject.getStr(Constants.KEY_MSG);
+                log.error("【CheckTask】fail,messageId={},code={},msg={}", message.getId(), code, msg);
+            }
+        } catch (HttpException e) {
+            log.error("【CheckTask】check HttpException, messageId={},error:{}", message.getId(), e.getMessage());
+        } catch (Exception e) {
+            log.error("【CheckTask】check Exception, messageId={},error:{}", message.getId(), e.getMessage());
+        }
     }
 
     /**
@@ -82,14 +125,10 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     private ScheduleMessageDto createCondition(Queue queue) {
         ScheduleMessageDto condition = new ScheduleMessageDto();
 
-        LocalDateTime dateTime = LocalDateTime.now();
+        LocalDateTime endTime = LocalDateTime.now().minus(queue.getCheckDuration().longValue(), ChronoUnit.MILLIS);
 
-        dateTime = dateTime.minus(queue.getCheckDuration().longValue(), ChronoUnit.MILLIS);
-        condition.setCreateEndTime(DateFormatUtils.formatDateTime(dateTime));
-
-        dateTime = dateTime.minus(queue.getCheckDuration() * checkTaskConfig.getMaxDurationTimes(), ChronoUnit.MILLIS);
-        condition.setCreateStartTime(DateFormatUtils.formatDateTime(dateTime));
-
+        // 多久未确认
+        condition.setCreateEndTime(DateFormatUtils.formatDateTime(endTime));
         condition.setStatus(MessageStatusEnum.WAIT.getValue());
         condition.setConsumerQueue(queue.getConsumerQueue());
 
