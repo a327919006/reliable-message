@@ -25,8 +25,8 @@ public class ThreadPoolConfig {
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("check-pool-%d").build();
         return new ThreadPoolExecutor(config.getCorePoolSize(),
                 config.getMaxPoolSize(),
-                config.getKeepAliveSeconds(),
-                TimeUnit.SECONDS,
+                config.getKeepAliveTime(),
+                TimeUnit.MILLISECONDS,
                 new LinkedBlockingDeque<>(config.getQueueCapacity()),
                 namedThreadFactory);
     }

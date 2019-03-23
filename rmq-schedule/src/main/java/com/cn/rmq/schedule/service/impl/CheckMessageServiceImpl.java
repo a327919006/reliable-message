@@ -14,6 +14,7 @@ import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.api.service.IQueueService;
 import com.cn.rmq.api.service.IRmqService;
 import com.cn.rmq.api.utils.DateFormatUtils;
+import com.cn.rmq.schedule.config.CheckTaskConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
@@ -45,6 +46,8 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     private IMessageService messageService;
     @Autowired
     private ThreadPoolExecutor executor;
+    @Autowired
+    private CheckTaskConfig config;
 
     @Override
     public void checkWaitingMessage() {
@@ -53,10 +56,15 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         for (Queue queue : queueList) {
             checkQueueWaitingMessage(queue);
         }
-        log.info("开始等待子线程");
+        log.info("【CheckTask】start wait all thread complete");
         try {
-            executor.awaitTermination(10000, TimeUnit.MILLISECONDS);
-            log.info("等待子线程完成");
+            // 因为确认超时时间最长为5秒，因此此处超时时间建议设置大于5秒，则足够所有线程完成。
+            boolean complete = executor.awaitTermination(config.getWaitCompleteTimeout(), TimeUnit.MILLISECONDS);
+            if (complete) {
+                log.info("【CheckTask】all thread completed");
+            } else {
+                log.info("【CheckTask】wait all thread complete timeout");
+            }
         } catch (InterruptedException e) {
             log.error("【CheckTask】InterruptedException", e);
         }
@@ -70,10 +78,9 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     private void checkQueueWaitingMessage(Queue queue) {
         // 设置消息查询条件
         ScheduleMessageDto condition = createCondition(queue);
-        log.info("condition=" + condition);
+        log.info("【CheckTask】message list condition=" + condition);
 
         // 获取预发送消息列表
-
         List<Message> messageList = messageService.listByCondition(condition);
         for (Message message : messageList) {
             try {
@@ -91,29 +98,29 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
      */
     private void checkMessage(Queue queue, Message message) {
         try {
-            log.info("【CheckTask】message={}", JSONUtil.toJsonStr(message));
+            log.info("【CheckTask】check message={}", JSONUtil.toJsonStr(message));
             String checkRsp = HttpUtil.post(queue.getCheckUrl(), message.getMessageBody(), queue.getCheckTimeout());
-            log.info("【CheckTask】messageId={}, checkRsp={}", message.getId(), checkRsp);
+            log.info("【CheckTask】check success, messageId={}, checkRsp={}", message.getId(), checkRsp);
 
             JSONObject jsonObject = JSONUtil.parseObj(checkRsp);
             Integer code = jsonObject.getInt(Constants.KEY_CODE);
             if (code.equals(Constants.CODE_SUCCESS)) {
                 Integer data = jsonObject.getInt(Constants.KEY_DATA);
-                if (data == 0) {
-                    log.info("【CheckTask】confirm,messageId={}", message.getId());
+                if (data == 1) {
+                    log.info("【CheckTask】message confirm, messageId={}", message.getId());
                     rmqService.confirmAndSendMessage(message.getId());
                 } else {
-                    log.info("【CheckTask】delete,messageId={}", message.getId());
+                    log.info("【CheckTask】message delete, messageId={}, data={}", message.getId(), data);
                     messageService.deleteByPrimaryKey(message.getId());
                 }
             } else {
                 String msg = jsonObject.getStr(Constants.KEY_MSG);
-                log.error("【CheckTask】fail,messageId={},code={},msg={}", message.getId(), code, msg);
+                log.error("【CheckTask】check fail, messageId={}, code={}, msg={}", message.getId(), code, msg);
             }
         } catch (HttpException e) {
-            log.error("【CheckTask】check HttpException, messageId={},error:{}", message.getId(), e.getMessage());
+            log.error("【CheckTask】check HttpException, messageId={}, error:{}", message.getId(), e.getMessage());
         } catch (Exception e) {
-            log.error("【CheckTask】check Exception, messageId={},error:{}", message.getId(), e.getMessage());
+            log.error("【CheckTask】check Exception, messageId={}, error:{}", message.getId(), e.getMessage());
         }
     }
 

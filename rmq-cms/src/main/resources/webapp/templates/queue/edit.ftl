@@ -87,7 +87,7 @@
                        required: true,
                        missingMessage: '请填写确认超时时长',
                        min: 1,
-                       max: 99999
+                       max: 5000
                        "/>
             </td>
         </tr>

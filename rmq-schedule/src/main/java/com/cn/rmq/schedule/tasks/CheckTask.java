@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CheckTask {
 
-    @Autowired
+    @Reference
     private ICheckMessageService checkMessageService;
 
     @Scheduled(cron = "0/5 * * * * ? ")
