@@ -28,6 +28,15 @@ public class Constants {
     public static final String KEY_CODE = "code";
     public static final String KEY_MSG = "msg";
     public static final String KEY_DATA = "data";
+    public static final String KEY_PAGE_NUM = "pageNum";
+    public static final String KEY_PAGE_SIZE = "pageSize";
+    public static final String KEY_COUNT = "count";
+    public static final String KEY_ORDER_BY = "orderBy";
+
+    /**
+     * OrderBy
+     */
+    public static final String ORDER_BY_CREATE_TIME = "create_time";
 
     /**
      * 用户session

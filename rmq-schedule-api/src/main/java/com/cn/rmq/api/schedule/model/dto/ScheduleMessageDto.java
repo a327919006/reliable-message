@@ -38,7 +38,11 @@ public class ScheduleMessageDto extends Message {
     /**
      * 是否需要计算总数
      */
-    private Boolean needCount;
+    private Boolean count;
+    /**
+     * 排序
+     */
+    private String orderBy;
 
     @Override
     public String toString() {

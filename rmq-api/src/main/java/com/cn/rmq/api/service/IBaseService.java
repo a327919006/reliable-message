@@ -1,7 +1,8 @@
 package com.cn.rmq.api.service;
 
+import com.github.pagehelper.Page;
+
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>Title: IBaseService</p>
@@ -15,6 +16,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 根据主键删除
+     *
      * @param id 根据主键删除
      * @return 操作数量
      */
@@ -22,6 +24,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 根据条件删除
+     *
      * @param record 对象参数
      * @return 操作数量
      */
@@ -29,6 +32,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 插入数据
+     *
      * @param record 对象数据
      * @return 操作数量
      */
@@ -36,6 +40,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 选择性插入数据
+     *
      * @param record 对象数据
      * @return 操作数量
      */
@@ -51,6 +56,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 根据主键选择性更新数据
+     *
      * @param record 对象数据
      * @return 操作数量
      */
@@ -58,6 +64,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 根据主键更新数据
+     *
      * @param record 对象数据
      * @return 操作数量
      */
@@ -65,6 +72,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 获取数量
+     *
      * @param record 对象参数
      * @return 数量
      */
@@ -72,6 +80,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 获取单条数据
+     *
      * @param record 对象参数
      * @return 对象
      */
@@ -79,6 +88,7 @@ public interface IBaseService<T, PK> {
 
     /**
      * 获取列表
+     *
      * @param record 对象数据
      * @return 对象列表
      */
@@ -86,8 +96,17 @@ public interface IBaseService<T, PK> {
 
     /**
      * 获取列表
+     *
      * @param record 参数
      * @return 对象列表
      */
     List<T> listByCondition(Object record);
+
+    /**
+     * 分页获取列表
+     *
+     * @param record 参数
+     * @return 对象列表
+     */
+    Page<T> listPage(Object record);
 }

@@ -10,7 +10,6 @@ import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.model.po.Queue;
 import com.cn.rmq.api.schedule.model.dto.ScheduleMessageDto;
 import com.cn.rmq.api.schedule.service.ICheckMessageService;
-import com.cn.rmq.api.schedule.service.IScheduleMessageService;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.api.service.IQueueService;
 import com.cn.rmq.api.service.IRmqService;
@@ -46,8 +45,6 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     private IRmqService rmqService;
     @Reference
     private IMessageService messageService;
-    @Reference
-    private IScheduleMessageService scheduleMessageService;
     @Autowired
     private ThreadPoolExecutor executor;
     @Autowired
@@ -62,6 +59,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         }
         log.info("【CheckTask】start wait all thread complete");
         try {
+            executor.shutdown();
             // 因为确认超时时间最长为5秒，因此此处超时时间建议设置大于5秒，则足够所有线程完成。
             boolean complete = executor.awaitTermination(config.getWaitCompleteTimeout(), TimeUnit.MILLISECONDS);
             if (complete) {
@@ -169,6 +167,8 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         condition.setStatus(MessageStatusEnum.WAIT.getValue());
         // 指定队列
         condition.setConsumerQueue(queue.getConsumerQueue());
+        // 排序字段
+        condition.setOrderBy(Constants.ORDER_BY_CREATE_TIME);
 
         return condition;
     }
@@ -185,7 +185,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     private Page<Message> getPage(ScheduleMessageDto condition, int pageNum, int pageSize, boolean countFlag) {
         condition.setPageNum(pageNum);
         condition.setPageSize(pageSize);
-        condition.setNeedCount(countFlag);
-        return scheduleMessageService.listPage(condition);
+        condition.setCount(countFlag);
+        return messageService.listPage(condition);
     }
 }

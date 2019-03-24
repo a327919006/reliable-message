@@ -1,6 +1,11 @@
 package com.cn.rmq.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.dal.mapper.BaseMapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -16,6 +21,7 @@ import java.util.Map;
  *
  * @author Chen Nan
  */
+@Slf4j
 public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
     /**
      * 持久层对象
@@ -65,5 +71,17 @@ public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
 
     public List<T> listByCondition(Object record) {
         return mapper.listByCondition(record);
+    }
+
+    public Page<T> listPage(Object record) {
+        // maven需依赖传入的Object对应的对象的jar包，否则会报NullPointException
+        Map<String, Object> paramMap = BeanUtil.beanToMap(record);
+        int pageNum = (int) paramMap.get(Constants.KEY_PAGE_NUM);
+        int pageSize = (int) paramMap.get(Constants.KEY_PAGE_SIZE);
+        boolean count = (boolean) paramMap.get(Constants.KEY_COUNT);
+        String orderBy = (String) paramMap.get(Constants.KEY_ORDER_BY);
+        Page<T> page = PageHelper.startPage(pageNum, pageSize, count).setOrderBy(orderBy);
+        mapper.listByCondition(paramMap);
+        return page;
     }
 }
