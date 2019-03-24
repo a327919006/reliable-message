@@ -18,6 +18,10 @@
             <artifactId>rmq-api</artifactId>
             <version>${rmq-api.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

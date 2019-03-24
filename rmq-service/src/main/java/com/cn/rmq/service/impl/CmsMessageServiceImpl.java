@@ -55,9 +55,9 @@ public class CmsMessageServiceImpl extends BaseServiceImpl<MessageMapper, Messag
         condition.setAlreadyDead(AlreadyDeadEnum.NO.getValue());
 
         int pageSize = 100;
-        // 计数标识，首页需要查询死亡消息总数
+        // 计数标识，首页需要获取消息总数
         boolean countFlag = true;
-        int pages;
+        int totalPage = 0;
         int totalCount = 0;
 
         for (int pageNum = 1; ; pageNum++) {
@@ -71,11 +71,13 @@ public class CmsMessageServiceImpl extends BaseServiceImpl<MessageMapper, Messag
             // 计数
             totalCount += list.size();
 
-            pages = pageInfo.getPages();
-            if (pageNum >= pages) {
+            if(countFlag){
+                countFlag = false;
+                totalPage = pageInfo.getPages();
+            }
+            if (pageNum >= totalPage) {
                 break;
             }
-            countFlag = false;
         }
         return totalCount;
     }

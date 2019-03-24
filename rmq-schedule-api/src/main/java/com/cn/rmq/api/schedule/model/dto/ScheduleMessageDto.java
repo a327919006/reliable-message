@@ -1,4 +1,4 @@
-package com.cn.rmq.api.schedule.service;
+package com.cn.rmq.api.schedule.model.dto;
 
 import cn.hutool.json.JSONUtil;
 import com.cn.rmq.api.model.po.Message;
@@ -26,6 +26,19 @@ public class ScheduleMessageDto extends Message {
      * 创建时间止
      */
     private String createEndTime;
+
+    /**
+     * 分页页码
+     */
+    private Integer pageNum;
+    /**
+     * 分页数量
+     */
+    private Integer pageSize;
+    /**
+     * 是否需要计算总数
+     */
+    private Boolean needCount;
 
     @Override
     public String toString() {

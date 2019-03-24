@@ -65,6 +65,11 @@
             <artifactId>rmq-dal</artifactId>
             <version>${rmq-dal.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.cn.rmq</groupId>
+            <artifactId>rmq-schedule-api</artifactId>
+            <version>${rmq-schedule-api.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
