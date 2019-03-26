@@ -14,7 +14,7 @@ public class Queue implements Serializable {
 
     private Integer checkDuration;
 
-    private Integer checkTimeout;
+    private Short checkTimeout;
 
     private String createUser;
 
@@ -64,11 +64,11 @@ public class Queue implements Serializable {
         this.checkDuration = checkDuration;
     }
 
-    public Integer getCheckTimeout() {
+    public Short getCheckTimeout() {
         return checkTimeout;
     }
 
-    public void setCheckTimeout(Integer checkTimeout) {
+    public void setCheckTimeout(Short checkTimeout) {
         this.checkTimeout = checkTimeout;
     }
 

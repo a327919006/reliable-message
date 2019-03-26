@@ -10,10 +10,15 @@ dubbo:
 
 schedule:
   check:
-    core-pool-size: 1
-    max-pool-size: 1
+    core-pool-size: 10
+    max-pool-size: 100
     keep-alive-time: 60000
-    queue-capacity: 1
+    queue-capacity: 10
     wait-complete-timeout: 10000
   recover:
     max-times: 6
+    core-pool-size: 10
+    max-pool-size: 100
+    keep-alive-time: 60000
+    queue-capacity: 10
+    wait-complete-timeout: 10000

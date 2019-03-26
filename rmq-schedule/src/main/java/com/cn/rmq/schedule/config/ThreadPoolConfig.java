@@ -17,17 +17,31 @@ import java.util.concurrent.*;
 @Configuration
 public class ThreadPoolConfig {
     @Autowired
-    private CheckTaskConfig config;
+    private CheckTaskConfig checkTaskConfig;
+    @Autowired
+    private RecoverTaskConfig recoverTaskConfig;
 
     @Bean
-    public ThreadPoolExecutor threadPoolExecutor() {
+    public ThreadPoolExecutor checkExecutor() {
         // 为线程池起名
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("check-pool-%d").build();
-        return new ThreadPoolExecutor(config.getCorePoolSize(),
-                config.getMaxPoolSize(),
-                config.getKeepAliveTime(),
+        return new ThreadPoolExecutor(checkTaskConfig.getCorePoolSize(),
+                checkTaskConfig.getMaxPoolSize(),
+                checkTaskConfig.getKeepAliveTime(),
                 TimeUnit.MILLISECONDS,
-                new LinkedBlockingDeque<>(config.getQueueCapacity()),
+                new LinkedBlockingDeque<>(checkTaskConfig.getQueueCapacity()),
+                namedThreadFactory);
+    }
+
+    @Bean
+    public ThreadPoolExecutor recoverExecutor() {
+        // 为线程池起名
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("recover-pool-%d").build();
+        return new ThreadPoolExecutor(recoverTaskConfig.getCorePoolSize(),
+                recoverTaskConfig.getMaxPoolSize(),
+                recoverTaskConfig.getKeepAliveTime(),
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingDeque<>(recoverTaskConfig.getQueueCapacity()),
                 namedThreadFactory);
     }
 }

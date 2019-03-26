@@ -45,8 +45,9 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     private IRmqService rmqService;
     @Reference
     private IMessageService messageService;
+
     @Autowired
-    private ThreadPoolExecutor executor;
+    private ThreadPoolExecutor checkExecutor;
     @Autowired
     private CheckTaskConfig config;
 
@@ -59,9 +60,9 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         }
         log.info("【CheckTask】start wait all thread complete");
         try {
-            executor.shutdown();
+            checkExecutor.shutdown();
             // 因为确认超时时间最长为5秒，因此此处超时时间建议设置大于5秒，则足够所有线程完成。
-            boolean complete = executor.awaitTermination(config.getWaitCompleteTimeout(), TimeUnit.MILLISECONDS);
+            boolean complete = checkExecutor.awaitTermination(config.getWaitCompleteTimeout(), TimeUnit.MILLISECONDS);
             if (complete) {
                 log.info("【CheckTask】all thread completed");
             } else {
@@ -95,7 +96,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
             // 多线程处理消息
             for (Message message : messageList) {
                 try {
-                    executor.execute(() -> checkMessage(queue, message));
+                    checkExecutor.execute(() -> checkMessage(queue, message));
                 } catch (RejectedExecutionException e) {
                     log.error("【CheckTask】Thread pool exhaustion:" + e.getMessage());
                 }

@@ -70,6 +70,7 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
         message = new Message();
         message.setId(messageId);
         message.setStatus(MessageStatusEnum.SENDING.getValue());
+        message.setConfirmTime(LocalDateTime.now());
         message.setUpdateTime(LocalDateTime.now());
         mapper.updateByPrimaryKeySelective(message);
 
@@ -96,6 +97,7 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
         message.setMessageBody(messageBody);
         message.setStatus(MessageStatusEnum.SENDING.getValue());
         message.setCreateTime(LocalDateTime.now());
+        message.setConfirmTime(LocalDateTime.now());
         message.setUpdateTime(LocalDateTime.now());
         mapper.insertSelective(message);
 

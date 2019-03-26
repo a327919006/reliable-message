@@ -18,6 +18,23 @@ import org.springframework.stereotype.Component;
 @Data
 public class RecoverTaskConfig {
     /**
+     * 线程池最小线程数
+     */
+    private Integer corePoolSize = 10;
+    /**
+     * 线程池最大线程数
+     */
+    private Integer maxPoolSize = 100;
+    /**
+     * 线程运行的空闲时间
+     */
+    private Integer keepAliveTime = 60000;
+    /**
+     * 缓存队列大小
+     */
+    private Integer queueCapacity = 10;
+
+    /**
      * 最大重发次数
      *
      * 举例：maxTimes设置为6次
@@ -25,4 +42,8 @@ public class RecoverTaskConfig {
      * 如果消息重发次数达到maxTimes，则不再重发该消息，并标记为死亡
      */
     private Integer maxTimes;
+    /**
+     * 等待所有线程执行完成的超时时间（毫秒），
+     */
+    private Integer waitCompleteTimeout = 10000;
 }

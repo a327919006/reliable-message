@@ -7,7 +7,7 @@
     <result column="consumer_queue" jdbcType="VARCHAR" property="consumerQueue" />
     <result column="check_url" jdbcType="VARCHAR" property="checkUrl" />
     <result column="check_duration" jdbcType="INTEGER" property="checkDuration" />
-    <result column="check_timeout" jdbcType="INTEGER" property="checkTimeout" />
+    <result column="check_timeout" jdbcType="SMALLINT" property="checkTimeout" />
     <result column="create_user" jdbcType="VARCHAR" property="createUser" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
@@ -33,7 +33,7 @@
       create_user, create_time, update_user, 
       update_time)
     values (#{id,jdbcType=CHAR}, #{businessName,jdbcType=VARCHAR}, #{consumerQueue,jdbcType=VARCHAR}, 
-      #{checkUrl,jdbcType=VARCHAR}, #{checkDuration,jdbcType=INTEGER}, #{checkTimeout,jdbcType=INTEGER}, 
+      #{checkUrl,jdbcType=VARCHAR}, #{checkDuration,jdbcType=INTEGER}, #{checkTimeout,jdbcType=SMALLINT}, 
       #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -88,7 +88,7 @@
         #{checkDuration,jdbcType=INTEGER},
       </if>
       <if test="checkTimeout != null">
-        #{checkTimeout,jdbcType=INTEGER},
+        #{checkTimeout,jdbcType=SMALLINT},
       </if>
       <if test="createUser != null">
         #{createUser,jdbcType=VARCHAR},
@@ -120,7 +120,7 @@
         check_duration = #{checkDuration,jdbcType=INTEGER},
       </if>
       <if test="checkTimeout != null">
-        check_timeout = #{checkTimeout,jdbcType=INTEGER},
+        check_timeout = #{checkTimeout,jdbcType=SMALLINT},
       </if>
       <if test="createUser != null">
         create_user = #{createUser,jdbcType=VARCHAR},
@@ -143,7 +143,7 @@
       consumer_queue = #{consumerQueue,jdbcType=VARCHAR},
       check_url = #{checkUrl,jdbcType=VARCHAR},
       check_duration = #{checkDuration,jdbcType=INTEGER},
-      check_timeout = #{checkTimeout,jdbcType=INTEGER},
+      check_timeout = #{checkTimeout,jdbcType=SMALLINT},
       create_user = #{createUser,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user = #{updateUser,jdbcType=VARCHAR},

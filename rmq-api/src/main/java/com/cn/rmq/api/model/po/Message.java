@@ -16,6 +16,8 @@ public class Message implements Serializable {
 
     private LocalDateTime createTime;
 
+    private LocalDateTime confirmTime;
+
     private LocalDateTime updateTime;
 
     private String messageBody;
@@ -66,6 +68,14 @@ public class Message implements Serializable {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public LocalDateTime getConfirmTime() {
+        return confirmTime;
+    }
+
+    public void setConfirmTime(LocalDateTime confirmTime) {
+        this.confirmTime = confirmTime;
     }
 
     public LocalDateTime getUpdateTime() {

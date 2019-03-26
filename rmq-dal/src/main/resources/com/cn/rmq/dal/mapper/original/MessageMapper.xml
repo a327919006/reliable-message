@@ -8,13 +8,15 @@
     <result column="already_dead" jdbcType="TINYINT" property="alreadyDead" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cn.rmq.api.model.po.Message">
     <result column="message_body" jdbcType="LONGVARCHAR" property="messageBody" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, consumer_queue, resend_times, already_dead, status, create_time, update_time
+    id, consumer_queue, resend_times, already_dead, status, create_time, confirm_time, 
+    update_time
   </sql>
   <sql id="Blob_Column_List">
     message_body
@@ -34,10 +36,12 @@
   <insert id="insert" parameterType="com.cn.rmq.api.model.po.Message">
     insert into t_message (id, consumer_queue, resend_times, 
       already_dead, status, create_time, 
-      update_time, message_body)
+      confirm_time, update_time, message_body
+      )
     values (#{id,jdbcType=CHAR}, #{consumerQueue,jdbcType=VARCHAR}, #{resendTimes,jdbcType=SMALLINT}, 
       #{alreadyDead,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{messageBody,jdbcType=LONGVARCHAR})
+      #{confirmTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{messageBody,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.cn.rmq.api.model.po.Message">
     insert into t_message
@@ -59,6 +63,9 @@
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="confirmTime != null">
+        confirm_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -86,6 +93,9 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="confirmTime != null">
+        #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -112,6 +122,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="confirmTime != null">
+        confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -128,6 +141,7 @@
       already_dead = #{alreadyDead,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       message_body = #{messageBody,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=CHAR}
@@ -139,6 +153,7 @@
       already_dead = #{alreadyDead,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=CHAR}
   </update>
