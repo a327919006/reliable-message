@@ -29,6 +29,8 @@
             <td><input name="createTime" class="easyui-validatebox" style="width: 250px;"/></td>
         </tr>
         <tr>
+            <td>确认时间</td>
+            <td><input name="confirmTime" class="easyui-validatebox" style="width: 250px;"/></td>
             <td>更新时间</td>
             <td><input name="updateTime" class="easyui-validatebox" style="width: 250px;"/></td>
         </tr>

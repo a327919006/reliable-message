@@ -35,6 +35,8 @@ public class CmsMessageVo implements Serializable {
 
     private LocalDateTime createTime;
 
+    private LocalDateTime confirmTime;
+
     private LocalDateTime updateTime;
 
     private String messageBody;

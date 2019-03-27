@@ -62,6 +62,11 @@
                     width: 30
                 },
                 {
+                    field: 'confirmTime',
+                    title: '确认时间',
+                    width: 30
+                },
+                {
                     field: 'updateTime',
                     title: '更新时间',
                     width: 30
