@@ -29,4 +29,12 @@ public interface IMessageService extends IBaseService<Message, String> {
      * @param messageId 消息ID
      */
     void setMessageToAlreadyDead(String messageId);
+
+    /**
+     * 标记所有重发次数超过限制的消息为已死亡
+     *
+     * @param resendTimes 最大重发次数限制
+     * @return 处理记录数量
+     */
+    int updateMessageDead(Short resendTimes);
 }

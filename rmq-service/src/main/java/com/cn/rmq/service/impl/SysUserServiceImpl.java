@@ -7,6 +7,7 @@ import com.cn.rmq.api.cms.model.dto.system.SysUserDTO;
 import com.cn.rmq.api.cms.model.po.SysUser;
 import com.cn.rmq.api.cms.model.po.UserRole;
 import com.cn.rmq.api.cms.service.ISysUserService;
+import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.dal.mapper.SysResourceMapper;
 import com.cn.rmq.dal.mapper.SysUserMapper;
 import com.cn.rmq.dal.mapper.UserRoleMapper;
@@ -26,7 +27,7 @@ import java.util.List;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service
+@Service(timeout = Constants.SERVICE_TIMEOUT)
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, String>
         implements ISysUserService {
 

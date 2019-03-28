@@ -70,4 +70,9 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         message.setUpdateTime(LocalDateTime.now());
         mapper.updateByPrimaryKeySelective(message);
     }
+
+    @Override
+    public int updateMessageDead(Short resendTimes) {
+        return mapper.updateMessageDead(resendTimes);
+    }
 }

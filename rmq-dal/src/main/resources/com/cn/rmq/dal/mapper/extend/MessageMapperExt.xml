@@ -30,6 +30,15 @@
         WHERE id = #{messageId,jdbcType=CHAR}
     </update>
 
+    <update id="updateMessageDead" parameterType="java.lang.Short">
+        UPDATE t_message
+        SET already_dead = 1,
+        update_time = NOW()
+        WHERE 1=1
+        AND already_dead = 0
+        AND resend_times >= #{resendTimes,jdbcType=SMALLINT}
+    </update>
+
     <select id="count" parameterType="Message" resultType="java.lang.Integer">
         SELECT count(1)
         FROM t_message

@@ -6,6 +6,7 @@ import com.cn.rmq.api.cms.model.dto.system.SysRoleDTO;
 import com.cn.rmq.api.cms.model.po.RoleResource;
 import com.cn.rmq.api.cms.model.po.SysRole;
 import com.cn.rmq.api.cms.service.ISysRoleService;
+import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.dal.mapper.RoleResourceMapper;
 import com.cn.rmq.dal.mapper.SysRoleMapper;
 import com.cn.rmq.dal.mapper.UserRoleMapper;
@@ -24,7 +25,7 @@ import java.util.List;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service
+@Service(timeout = Constants.SERVICE_TIMEOUT)
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole, String>
         implements ISysRoleService {
 

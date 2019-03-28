@@ -21,7 +21,7 @@ public class RecoverTask {
     @Reference
     private IRecoverMessageService recoverMessageService;
 
-    @Scheduled(cron = "0/5 * * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void task() {
         log.info("【RecoverTask】start");
 

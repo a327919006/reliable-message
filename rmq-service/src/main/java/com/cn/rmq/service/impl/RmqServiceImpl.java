@@ -3,6 +3,7 @@ package com.cn.rmq.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.exceptions.CheckException;
+import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.service.IRmqService;
 import com.cn.rmq.dal.mapper.MessageMapper;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service
+@Service(timeout = Constants.SERVICE_TIMEOUT)
 @Slf4j
 public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, String>
         implements IRmqService {

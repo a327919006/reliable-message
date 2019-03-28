@@ -50,5 +50,8 @@ public class Constants {
     public static final String MSG_SUCCESS = "SUCCESS";
     public static final String MSG_READ_CONFIG_ERROR = "读取配置文件错误";
 
-
+    /**
+     * dubbo服务超时时长
+     */
+    public static final int SERVICE_TIMEOUT = 5000;
 }

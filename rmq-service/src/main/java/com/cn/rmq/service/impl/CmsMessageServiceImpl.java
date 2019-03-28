@@ -6,6 +6,7 @@ import com.cn.rmq.api.cms.model.vo.message.CmsMessageVo;
 import com.cn.rmq.api.cms.service.ICmsMessageService;
 import com.cn.rmq.api.enums.AlreadyDeadEnum;
 import com.cn.rmq.api.exceptions.CheckException;
+import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.dal.mapper.MessageMapper;
@@ -24,7 +25,7 @@ import java.util.List;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service
+@Service(timeout = Constants.SERVICE_TIMEOUT)
 @Slf4j
 public class CmsMessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, String>
         implements ICmsMessageService {

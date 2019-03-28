@@ -3,6 +3,7 @@ package com.cn.rmq.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.cn.rmq.api.cms.service.ICmsMessageService;
 import com.cn.rmq.api.exceptions.CheckException;
+import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.queue.QueueAddDto;
 import com.cn.rmq.api.model.dto.queue.QueueUpdateDto;
 import com.cn.rmq.api.model.po.Queue;
@@ -22,7 +23,7 @@ import java.util.Date;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service
+@Service(timeout = Constants.SERVICE_TIMEOUT)
 @Slf4j
 public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String>
         implements IQueueService {

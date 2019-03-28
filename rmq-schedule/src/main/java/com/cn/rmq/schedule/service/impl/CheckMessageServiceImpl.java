@@ -1,5 +1,6 @@
 package com.cn.rmq.schedule.service.impl;
 
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
@@ -26,7 +27,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Title:</p>
@@ -58,19 +58,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         for (Queue queue : queueList) {
             checkQueueWaitingMessage(queue);
         }
-        log.info("【CheckTask】start wait all thread complete");
-        try {
-            checkExecutor.shutdown();
-            // 因为确认超时时间最长为5秒，因此此处超时时间建议设置大于5秒，则足够所有线程完成。
-            boolean complete = checkExecutor.awaitTermination(config.getWaitCompleteTimeout(), TimeUnit.MILLISECONDS);
-            if (complete) {
-                log.info("【CheckTask】all thread completed");
-            } else {
-                log.info("【CheckTask】wait all thread complete timeout");
-            }
-        } catch (InterruptedException e) {
-            log.error("【CheckTask】InterruptedException", e);
-        }
+        awaitComplete();
     }
 
     /**
@@ -81,7 +69,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     private void checkQueueWaitingMessage(Queue queue) {
         // 设置消息查询条件
         ScheduleMessageDto condition = createCondition(queue);
-        log.info("【CheckTask】message list condition=" + condition);
+        log.info("【CheckTask】message list condition={}", condition);
 
         int pageSize = config.getCorePoolSize();
         // 计数标识，首页需要获取消息总数
@@ -119,7 +107,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
      */
     private void checkMessage(Queue queue, Message message) {
         try {
-            log.info("【CheckTask】check message={}", JSONUtil.toJsonStr(message));
+            log.info("【CheckTask】message={}", JSONUtil.toJsonStr(message));
             // 调用业务方http接口确认消息是否需要发送
             String checkRsp = HttpUtil.post(queue.getCheckUrl(), message.getMessageBody(), queue.getCheckTimeout());
             log.info("【CheckTask】check success, messageId={}, checkRsp={}", message.getId(), checkRsp);
@@ -145,9 +133,9 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
                 log.error("【CheckTask】check fail, messageId={}, code={}, msg={}", message.getId(), code, msg);
             }
         } catch (HttpException e) {
-            log.error("【CheckTask】check HttpException, messageId={}, error:{}", message.getId(), e.getMessage());
+            log.error("【CheckTask】HttpException, messageId=" + message.getId() + ", error:", e);
         } catch (Exception e) {
-            log.error("【CheckTask】check Exception, messageId={}, error:{}", message.getId(), e.getMessage());
+            log.error("【CheckTask】Exception, messageId=" + message.getId() + ", error:", e);
         }
     }
 
@@ -188,5 +176,28 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         condition.setPageSize(pageSize);
         condition.setCount(countFlag);
         return messageService.listPage(condition);
+    }
+
+    /**
+     * 等待所有线程执行完成
+     */
+    private void awaitComplete() {
+        try {
+            log.info("【CheckTask】start wait all thread complete");
+            int checkInterval = 1000;
+            int maxCheckCount = config.getWaitCompleteTimeout() / checkInterval;
+            int count = 0;
+            while (count < maxCheckCount) {
+                log.info("【CheckTask】activeThreadCount=" + checkExecutor.getActiveCount());
+                if (0 == checkExecutor.getActiveCount()) {
+                    break;
+                }
+                ThreadUtil.sleep(checkInterval);
+                count++;
+            }
+            log.info("【CheckTask】all thread completed");
+        } catch (Exception e) {
+            log.error("【CheckTask】WaitComplete Exception:", e);
+        }
     }
 }

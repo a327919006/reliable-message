@@ -1,5 +1,7 @@
 package com.cn.rmq.schedule.service.impl;
 
+import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.json.JSONUtil;
 import com.cn.rmq.api.enums.AlreadyDeadEnum;
 import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.model.Constants;
@@ -20,7 +22,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Title:</p>
@@ -49,24 +50,18 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         for (int resendTimes = maxResendTimes; resendTimes >= 0; --resendTimes) {
             recoverSendingMessage(resendTimes);
         }
-        log.info("【RecoverTask】start wait all thread complete");
-        try {
-            recoverExecutor.shutdown();
-            boolean complete = recoverExecutor.awaitTermination(config.getWaitCompleteTimeout(), TimeUnit.MILLISECONDS);
-            if (complete) {
-                log.info("【RecoverTask】all thread completed");
-            } else {
-                log.info("【RecoverTask】wait all thread complete timeout");
-            }
-        } catch (InterruptedException e) {
-            log.error("【RecoverTask】InterruptedException", e);
-        }
+        awaitComplete();
     }
 
+    /**
+     * 按重发次数从高到低，分批次重发消息
+     *
+     * @param resendTimes 重发次数
+     */
     private void recoverSendingMessage(int resendTimes) {
         // 设置消息查询条件
         ScheduleMessageDto condition = createCondition(resendTimes);
-        log.info("【RecoverTask】message list condition=" + condition);
+        log.info("【RecoverTask】message list condition={}", condition);
 
         int pageSize = config.getCorePoolSize();
         // 计数标识，首页需要获取消息总数
@@ -103,7 +98,12 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
      * @param message 消息信息
      */
     private void recoverMessage(Message message) {
-        messageService.resendMessage(message);
+        try {
+            log.info("【RecoverTask】message={}", JSONUtil.toJsonStr(message));
+            messageService.resendMessage(message);
+        } catch (Exception e) {
+            log.error("【RecoverTask】Exception, messageId=" + message.getId() + ", error:", e);
+        }
     }
 
     /**
@@ -160,5 +160,28 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         condition.setPageSize(pageSize);
         condition.setCount(countFlag);
         return messageService.listPage(condition);
+    }
+
+    /**
+     * 等待所有线程执行完成
+     */
+    private void awaitComplete() {
+        try {
+            log.info("【RecoverTask】start wait all thread complete");
+            int checkInterval = 1000;
+            int maxCheckCount = config.getWaitCompleteTimeout() / checkInterval;
+            int count = 0;
+            while (count < maxCheckCount) {
+                log.info("【RecoverTask】activeThreadCount=" + recoverExecutor.getActiveCount());
+                if (0 == recoverExecutor.getActiveCount()) {
+                    break;
+                }
+                ThreadUtil.sleep(checkInterval);
+                count++;
+            }
+            log.info("【RecoverTask】all thread completed");
+        } catch (Exception e) {
+            log.error("【RecoverTask】WaitComplete Exception:", e);
+        }
     }
 }

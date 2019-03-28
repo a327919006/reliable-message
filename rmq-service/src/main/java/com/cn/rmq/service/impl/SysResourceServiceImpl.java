@@ -4,6 +4,7 @@ import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
 import com.cn.rmq.api.cms.model.po.SysResource;
 import com.cn.rmq.api.cms.service.ISysResourceService;
+import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.dal.mapper.RoleResourceMapper;
 import com.cn.rmq.dal.mapper.SysResourceMapper;
 import com.github.pagehelper.Page;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service
+@Service(timeout = Constants.SERVICE_TIMEOUT)
 public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, SysResource, String>
         implements ISysResourceService {
 
