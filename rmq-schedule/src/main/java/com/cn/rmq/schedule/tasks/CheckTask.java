@@ -9,8 +9,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * <p>Title:</p>
- * <p>Description:</p>
+ * <p>Description:
+ * 消息确认子系统定时任务
+ * </p>
  *
  * @author Chen Nan
  * @date 2019/3/18.
@@ -23,7 +24,7 @@ public class CheckTask {
     private ICheckMessageService checkMessageService;
 
     @Scheduled(cron = "0/5 * * * * ? ")
-    public void check() {
+    public void task() {
         log.info("【CheckTask】start");
 
         checkMessageService.checkWaitingMessage();

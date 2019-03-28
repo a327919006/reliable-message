@@ -13,7 +13,6 @@ import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 消息服务实现
@@ -65,15 +64,8 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
             throw new CheckException("messageId is empty");
         }
 
-        // 校验消息是否存在
         Message message = new Message();
         message.setId(messageId);
-        int count = mapper.count(message);
-        if (0 == count) {
-            throw new CheckException("message not exist");
-        }
-
-        // 更新消息死亡
         message.setAlreadyDead(AlreadyDeadEnum.YES.getValue());
         message.setUpdateTime(LocalDateTime.now());
         mapper.updateByPrimaryKeySelective(message);

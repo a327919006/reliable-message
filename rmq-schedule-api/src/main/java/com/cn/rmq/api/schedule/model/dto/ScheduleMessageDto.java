@@ -18,14 +18,13 @@ import lombok.Setter;
 @Setter
 public class ScheduleMessageDto extends Message {
     /**
-     * 创建时间起
-     */
-    private String createStartTime;
-
-    /**
      * 创建时间止
      */
     private String createEndTime;
+    /**
+     * 确认时间止
+     */
+    private String confirmEndTime;
 
     /**
      * 分页页码

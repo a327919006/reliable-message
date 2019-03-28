@@ -15,6 +15,9 @@
         <if test="alreadyDead != null">
             AND already_dead = #{alreadyDead,jdbcType=TINYINT}
         </if>
+        <if test="resendTimes != null">
+            AND resend_times = #{resendTimes,jdbcType=SMALLINT}
+        </if>
         <if test="status != null">
             AND status = #{status,jdbcType=TINYINT}
         </if>
@@ -52,19 +55,12 @@
         FROM t_message
         WHERE 1=1
         <include refid="condition"/>
-        <choose>
-            <when test="createStartTime != null and createEndTime != null">
-                AND create_time >= #{createStartTime,jdbcType=VARCHAR}
-                AND create_time &lt;= #{createEndTime,jdbcType=VARCHAR}
-            </when>
-            <when test="createStartTime != null and createEndTime == null">
-                AND create_time >= #{createStartTime,jdbcType=VARCHAR}
-                AND create_time &lt;= NOW()
-            </when>
-            <when test="createStartTime == null and createEndTime != null">
-                AND create_time &lt;= #{createEndTime,jdbcType=VARCHAR}
-            </when>
-        </choose>
+        <if test="createEndTime != null">
+            AND create_time &lt;= #{createEndTime,jdbcType=VARCHAR}
+        </if>
+        <if test="confirmEndTime != null">
+            AND confirm_time &lt;= #{confirmEndTime,jdbcType=VARCHAR}
+        </if>
     </select>
 
     <select id="cmsListPage" parameterType="com.cn.rmq.api.cms.model.dto.message.CmsMessageListDto"

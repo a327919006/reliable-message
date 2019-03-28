@@ -37,6 +37,7 @@ public class Constants {
      * OrderBy
      */
     public static final String ORDER_BY_CREATE_TIME = "create_time";
+    public static final String ORDER_BY_CONFIRM_TIME = "confirm_time";
 
     /**
      * 用户session

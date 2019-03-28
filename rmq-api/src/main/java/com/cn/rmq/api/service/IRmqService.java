@@ -37,11 +37,4 @@ public interface IRmqService {
      * @param messageBody   消息内容
      */
     void directSendMessage(String consumerQueue, String messageBody);
-
-    /**
-     * 重发消息
-     *
-     * @param messageId 消息ID
-     */
-    void resendMessageById(String messageId);
 }

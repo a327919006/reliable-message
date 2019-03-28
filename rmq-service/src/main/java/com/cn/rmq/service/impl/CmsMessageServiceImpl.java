@@ -52,7 +52,7 @@ public class CmsMessageServiceImpl extends BaseServiceImpl<MessageMapper, Messag
         // 构造查询条件
         Message condition = new Message();
         condition.setConsumerQueue(consumerQueue);
-        condition.setAlreadyDead(AlreadyDeadEnum.NO.getValue());
+        condition.setAlreadyDead(AlreadyDeadEnum.YES.getValue());
 
         int pageSize = 100;
         // 计数标识，首页需要获取消息总数

@@ -4,13 +4,11 @@ import com.cn.rmq.api.enums.AlreadyDeadEnum;
 import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.po.Message;
-import com.cn.rmq.api.model.po.Queue;
 import com.cn.rmq.api.schedule.model.dto.ScheduleMessageDto;
 import com.cn.rmq.api.schedule.service.IRecoverMessageService;
 import com.cn.rmq.api.service.IMessageService;
-import com.cn.rmq.api.service.IQueueService;
+import com.cn.rmq.api.service.IRmqService;
 import com.cn.rmq.api.utils.DateFormatUtils;
-import com.cn.rmq.schedule.config.CheckTaskConfig;
 import com.cn.rmq.schedule.config.RecoverTaskConfig;
 import com.github.pagehelper.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +17,6 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -37,9 +34,9 @@ import java.util.concurrent.TimeUnit;
 public class RecoverMessageServiceImpl implements IRecoverMessageService {
 
     @Reference
-    private IQueueService queueService;
-    @Reference
     private IMessageService messageService;
+    @Reference
+    private IRmqService rmqService;
 
     @Autowired
     private ThreadPoolExecutor recoverExecutor;
@@ -48,15 +45,13 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
 
     @Override
     public void recoverSendingMessage() {
-        // 获取消费队列列表
-        List<Queue> queueList = queueService.list(new Queue());
-        for (Queue queue : queueList) {
-            recoverQueueSendingMessage(queue);
+        int maxResendTimes = config.getInterval().size() - 1;
+        for (int resendTimes = maxResendTimes; resendTimes >= 0; --resendTimes) {
+            recoverSendingMessage(resendTimes);
         }
         log.info("【RecoverTask】start wait all thread complete");
         try {
             recoverExecutor.shutdown();
-            // 因为确认超时时间最长为5秒，因此此处超时时间建议设置大于5秒，则足够所有线程完成。
             boolean complete = recoverExecutor.awaitTermination(config.getWaitCompleteTimeout(), TimeUnit.MILLISECONDS);
             if (complete) {
                 log.info("【RecoverTask】all thread completed");
@@ -68,9 +63,9 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         }
     }
 
-    private void recoverQueueSendingMessage(Queue queue) {
+    private void recoverSendingMessage(int resendTimes) {
         // 设置消息查询条件
-        ScheduleMessageDto condition = createCondition(queue);
+        ScheduleMessageDto condition = createCondition(resendTimes);
         log.info("【RecoverTask】message list condition=" + condition);
 
         int pageSize = config.getCorePoolSize();
@@ -86,7 +81,7 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
             // 多线程处理消息
             for (Message message : messageList) {
                 try {
-                    recoverExecutor.execute(() -> recoverMessage(queue, message));
+                    recoverExecutor.execute(() -> recoverMessage(message));
                 } catch (RejectedExecutionException e) {
                     log.error("【RecoverTask】Thread pool exhaustion:" + e.getMessage());
                 }
@@ -102,20 +97,25 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         }
     }
 
-    private void recoverMessage(Queue queue, Message message) {
-
+    /**
+     * 重发消息
+     *
+     * @param message 消息信息
+     */
+    private void recoverMessage(Message message) {
+        messageService.resendMessage(message);
     }
 
     /**
      * 创建消息查询条件
      *
-     * @param queue 队列信息
+     * @param resendTimes 重发次数
      */
-    private ScheduleMessageDto createCondition(Queue queue) {
+    private ScheduleMessageDto createCondition(int resendTimes) {
         ScheduleMessageDto condition = new ScheduleMessageDto();
 
         // 计算时间
-        LocalDateTime endTime = LocalDateTime.now().minus(queue.getCheckDuration().longValue(), ChronoUnit.MILLIS);
+        LocalDateTime endTime = LocalDateTime.now().minusMinutes(getRecoverInterval(resendTimes));
 
         // 多长时间未确认
         condition.setCreateEndTime(DateFormatUtils.formatDateTime(endTime));
@@ -123,12 +123,27 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         condition.setStatus(MessageStatusEnum.SENDING.getValue());
         // 消息未死亡
         condition.setAlreadyDead(AlreadyDeadEnum.NO.getValue());
-        // 指定队列
-        condition.setConsumerQueue(queue.getConsumerQueue());
+        // 重发次数
+        condition.setResendTimes((short) resendTimes);
         // 排序字段
-        condition.setOrderBy(Constants.ORDER_BY_CREATE_TIME);
+        condition.setOrderBy(Constants.ORDER_BY_CONFIRM_TIME);
 
         return condition;
+    }
+
+    /**
+     * 获取消息重发时间间隔（分钟）
+     *
+     * @param resendTimes 当前重发次数
+     * @return 重发时间间隔（分钟）
+     */
+    private long getRecoverInterval(int resendTimes) {
+        long result = 0L;
+        List<Long> interval = config.getInterval();
+        for (int i = 0; i <= resendTimes; i++) {
+            result += interval.get(i);
+        }
+        return result;
     }
 
     /**

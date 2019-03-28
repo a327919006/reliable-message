@@ -14,7 +14,6 @@ import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 消息服务实现
@@ -116,25 +115,5 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
 
         // 发送MQ消息
         jmsMessagingTemplate.convertAndSend(consumerQueue, messageBody);
-    }
-
-    @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public void resendMessageById(String messageId) {
-        if (StringUtils.isBlank(messageId)) {
-            throw new CheckException("messageId is empty");
-        }
-
-        // 校验消息是否存在
-        Message message = mapper.selectByPrimaryKey(messageId);
-        if (message == null) {
-            throw new CheckException("message not exist");
-        }
-
-        // 增加重发次数
-        mapper.addResendTimes(messageId);
-
-        // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(message.getConsumerQueue(), message.getMessageBody());
     }
 }

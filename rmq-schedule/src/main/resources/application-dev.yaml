@@ -16,9 +16,16 @@ schedule:
     queue-capacity: 10
     wait-complete-timeout: 10000
   recover:
-    max-times: 6
     core-pool-size: 10
     max-pool-size: 100
     keep-alive-time: 60000
     queue-capacity: 10
-    wait-complete-timeout: 10000
+    wait-complete-timeout: 30000
+    interval:
+    - 4
+    - 10
+    - 30
+    - 60
+    - 120
+    - 360
+    - 900

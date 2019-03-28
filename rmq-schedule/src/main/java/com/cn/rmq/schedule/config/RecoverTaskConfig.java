@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * <p>Title:</p>
  * <p>Description:
@@ -33,17 +35,18 @@ public class RecoverTaskConfig {
      * 缓存队列大小
      */
     private Integer queueCapacity = 10;
-
     /**
-     * 最大重发次数
+     * 等待所有线程执行完成的超时时间（单位：毫秒）
      *
-     * 举例：maxTimes设置为6次
-     * 某条消息状态处于发送中，下游业务层一直没有确认消费该消息，则消息恢复子系统会重发该消息给下游业务层
-     * 如果消息重发次数达到maxTimes，则不再重发该消息，并标记为死亡
-     */
-    private Integer maxTimes;
-    /**
-     * 等待所有线程执行完成的超时时间（毫秒），
      */
     private Integer waitCompleteTimeout = 10000;
+
+    /**
+     * 消息重发时间间隔（单位：分钟）
+     * 举例： [4, 10, 30, 60, 120, 360]
+     * 消息确认会下下游业务发送首次消息，4分钟内，下游业务没有确认消费该消息，则消息恢复子系统会重发该消息。
+     * 再过10分钟（也就是消息确认后14分钟内），下游业务没有确认消费该消息，则消息恢复子系统会重发该消息。
+     * 以此类推
+     */
+    private List<Long> interval;
 }
