@@ -29,7 +29,7 @@ public class CmsQueueVo implements Serializable {
 
     private Integer checkDuration;
 
-    private Integer checkTimeout;
+    private Short checkTimeout;
 
     private LocalDateTime createTime;
 

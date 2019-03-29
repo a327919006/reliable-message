@@ -12,6 +12,7 @@
         <module>rmq-api</module>
         <module>rmq-dal</module>
         <module>rmq-service</module>
+        <module>rmq-service-api</module>
         <module>rmq-cms</module>
         <module>rmq-cms-api</module>
         <module>rmq-schedule</module>
@@ -27,8 +28,8 @@
         <rmq-api.version>1.0</rmq-api.version>
         <rmq-cms-api.version>1.0</rmq-cms-api.version>
         <rmq-schedule-api.version>1.0</rmq-schedule-api.version>
+        <rmq-service-api.version>1.0</rmq-service-api.version>
         <rmq-dal.version>1.0</rmq-dal.version>
-        <rmq-service.version>1.0</rmq-service.version>
 
         <!--spring boot-->
         <spring-boot.version>2.1.3.RELEASE</spring-boot.version>

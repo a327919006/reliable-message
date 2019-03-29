@@ -15,8 +15,8 @@
     <dependencies>
         <dependency>
             <groupId>com.cn.rmq</groupId>
-            <artifactId>rmq-api</artifactId>
-            <version>${rmq-api.version}</version>
+            <artifactId>rmq-service-api</artifactId>
+            <version>${rmq-service-api.version}</version>
         </dependency>
     </dependencies>
 </project>

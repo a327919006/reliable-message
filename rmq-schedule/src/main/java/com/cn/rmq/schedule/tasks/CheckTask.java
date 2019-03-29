@@ -23,7 +23,7 @@ public class CheckTask {
     @Reference
     private ICheckMessageService checkMessageService;
 
-//    @Scheduled(cron = "0/5 * * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void task() {
         log.info("【CheckTask】start");
 

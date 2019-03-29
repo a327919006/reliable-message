@@ -200,7 +200,7 @@
      * 重发死亡消息
      */
     function queueResendDead(id) {
-        $.messager.confirm('确认', '您是否要删除当前的记录？', function (ret) {
+        $.messager.confirm('确认', '您是否要该队列所有死亡消息？', function (ret) {
             if (ret) {
                 parent.$.messager.progress({
                     text: '正在执行，请稍后....',
