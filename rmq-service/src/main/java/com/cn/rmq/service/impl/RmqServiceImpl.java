@@ -54,7 +54,6 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
     public void confirmAndSendMessage(String messageId) {
         if (StringUtils.isBlank(messageId)) {
             throw new CheckException("messageId is empty");
@@ -79,7 +78,6 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
     public void saveAndSendMessage(String consumerQueue, String messageBody) {
         if (StringUtils.isBlank(consumerQueue)) {
             throw new CheckException("consumerQueue is empty");
