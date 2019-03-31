@@ -37,4 +37,10 @@ public interface IRmqService {
      * @param messageBody   消息内容
      */
     void directSendMessage(String consumerQueue, String messageBody);
+
+    /**
+     * 根据消息ID删除消息
+     * @param messageId 消息ID
+     */
+    void deleteMessageById(String messageId);
 }

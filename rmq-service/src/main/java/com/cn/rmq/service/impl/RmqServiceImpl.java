@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.model.Constants;
+import com.cn.rmq.api.model.RmqMessage;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.service.IRmqService;
 import com.cn.rmq.dal.mapper.MessageMapper;
@@ -12,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -66,15 +66,18 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
         }
 
         // 更新消息状态为发送中
-        message = new Message();
-        message.setId(messageId);
-        message.setStatus(MessageStatusEnum.SENDING.getValue());
-        message.setConfirmTime(LocalDateTime.now());
-        message.setUpdateTime(LocalDateTime.now());
-        mapper.updateByPrimaryKeySelective(message);
+        Message updateBean = new Message();
+        updateBean.setId(messageId);
+        updateBean.setStatus(MessageStatusEnum.SENDING.getValue());
+        updateBean.setConfirmTime(LocalDateTime.now());
+        updateBean.setUpdateTime(LocalDateTime.now());
+        mapper.updateByPrimaryKeySelective(updateBean);
 
         // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(message.getConsumerQueue(), message.getMessageBody());
+        RmqMessage rmqMessage = new RmqMessage();
+        rmqMessage.setMessageId(messageId);
+        rmqMessage.setMessageBody(message.getMessageBody());
+        jmsMessagingTemplate.convertAndSend(message.getConsumerQueue(), rmqMessage);
     }
 
     @Override
@@ -114,5 +117,10 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
 
         // 发送MQ消息
         jmsMessagingTemplate.convertAndSend(consumerQueue, messageBody);
+    }
+
+    @Override
+    public void deleteMessageById(String messageId) {
+        mapper.deleteByPrimaryKey(messageId);
     }
 }
