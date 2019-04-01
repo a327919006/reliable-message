@@ -79,7 +79,7 @@
         </tr>
         <tr>
             <td>确认超时时长(毫秒)<span class="span_required">*</span></td>
-            <td>
+            <td colspan="3">
                 <input name="checkTimeout" class="easyui-numberbox" style="width: 165px;"
                        data-options="
                        required: true,
@@ -87,6 +87,7 @@
                        min: 1,
                        max: 5000
                        "/>
+                注：HTTP请求超时时长
             </td>
         </tr>
     </table>

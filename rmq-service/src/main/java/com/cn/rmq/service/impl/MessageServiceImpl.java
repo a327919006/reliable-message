@@ -1,7 +1,7 @@
 package com.cn.rmq.service.impl;
 
-import com.cn.rmq.api.enums.AlreadyDeadEnum;
 import com.cn.rmq.api.exceptions.CheckException;
+import com.cn.rmq.api.model.RmqMessage;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.dal.mapper.MessageMapper;
@@ -11,8 +11,6 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 /**
  * 消息服务实现
@@ -31,16 +29,23 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void resendMessage(Message message) {
+        log.info("【resendMessage】start, messageId={}", message.getId());
         // 增加重发次数
         mapper.addResendTimes(message.getId());
 
         // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(message.getConsumerQueue(), message.getMessageBody());
+        RmqMessage rmqMessage = new RmqMessage();
+        rmqMessage.setMessageId(message.getId());
+        rmqMessage.setMessageBody(message.getMessageBody());
+        jmsMessagingTemplate.convertAndSend(message.getConsumerQueue(), rmqMessage);
+
+        log.info("【resendMessage】success, messageId={}", message.getId());
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void resendMessageById(String messageId) {
+        log.info("【resendMessageById】start, messageId={}", messageId);
         if (StringUtils.isBlank(messageId)) {
             throw new CheckException("messageId is empty");
         }
@@ -55,20 +60,12 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         mapper.addResendTimes(messageId);
 
         // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(message.getConsumerQueue(), message.getMessageBody());
-    }
+        RmqMessage rmqMessage = new RmqMessage();
+        rmqMessage.setMessageId(message.getId());
+        rmqMessage.setMessageBody(message.getMessageBody());
+        jmsMessagingTemplate.convertAndSend(message.getConsumerQueue(), rmqMessage);
 
-    @Override
-    public void setMessageToAlreadyDead(String messageId) {
-        if (StringUtils.isBlank(messageId)) {
-            throw new CheckException("messageId is empty");
-        }
-
-        Message message = new Message();
-        message.setId(messageId);
-        message.setAlreadyDead(AlreadyDeadEnum.YES.getValue());
-        message.setUpdateTime(LocalDateTime.now());
-        mapper.updateByPrimaryKeySelective(message);
+        log.info("【resendMessageById】success, messageId={}", messageId);
     }
 
     @Override

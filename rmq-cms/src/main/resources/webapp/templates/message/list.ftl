@@ -143,7 +143,7 @@
      * 重发消息
      */
     function messageResend(id) {
-        $.messager.confirm('确认', '您是否要删除当前的记录？', function (ret) {
+        $.messager.confirm('确认', '您是否要重发当前消息？', function (ret) {
             if (ret) {
                 parent.$.messager.progress({
                     text: '正在执行，请稍后....',

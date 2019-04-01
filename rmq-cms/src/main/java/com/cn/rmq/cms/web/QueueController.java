@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
- * <p>消息管理制器</p>
+ * <p>队列管理制器</p>
  *
  * @author Chen Nan
  * @date 2019/3/11.

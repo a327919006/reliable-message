@@ -103,7 +103,10 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
         mapper.insertSelective(message);
 
         // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(consumerQueue, messageBody);
+        RmqMessage rmqMessage = new RmqMessage();
+        rmqMessage.setMessageId(id);
+        rmqMessage.setMessageBody(messageBody);
+        jmsMessagingTemplate.convertAndSend(consumerQueue, rmqMessage);
     }
 
     @Override
@@ -116,7 +119,9 @@ public class RmqServiceImpl extends BaseServiceImpl<MessageMapper, Message, Stri
         }
 
         // 发送MQ消息
-        jmsMessagingTemplate.convertAndSend(consumerQueue, messageBody);
+        RmqMessage rmqMessage = new RmqMessage();
+        rmqMessage.setMessageBody(messageBody);
+        jmsMessagingTemplate.convertAndSend(consumerQueue, rmqMessage);
     }
 
     @Override

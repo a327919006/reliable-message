@@ -46,6 +46,7 @@ public class CmsMessageServiceImpl extends BaseServiceImpl<MessageMapper, Messag
 
     @Override
     public int resendAllDeadMessageByQueueName(String consumerQueue) {
+        log.info("【resendDead】start, consumerQueue={}", consumerQueue);
         if (StringUtils.isBlank(consumerQueue)) {
             throw new CheckException("consumerQueue is empty");
         }
@@ -80,6 +81,7 @@ public class CmsMessageServiceImpl extends BaseServiceImpl<MessageMapper, Messag
                 break;
             }
         }
+        log.info("【resendDead】success, consumerQueue={}, totalCount={}", consumerQueue, totalCount);
         return totalCount;
     }
 }
