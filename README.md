@@ -1,7 +1,9 @@
 # reliable-message
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/a327919006/reliable-message/blob/master/LICENSE)
+
 #### 介绍
-分布式事务解决方案之基于可靠消息的最终一致性方案，代码开发中。后续会完善文档。
+分布式事务解决方案之基于可靠消息的最终一致性方案。文档编写中。
 
 
 #### Maven模块描述
