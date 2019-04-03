@@ -3,8 +3,16 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/a327919006/reliable-message/blob/master/LICENSE)
 
 #### 介绍
-分布式事务解决方案之基于可靠消息的最终一致性方案。 文档编写中。
 
+**reliable-message**（简称：RMQ）是**基于可靠消息的最终一致性**的分布式事务解决方案。文档编写中。
+
+#[中文文档][showdoc]
+
+###框架定位
+RMQ本身不生产消息队列，只是消息的搬运工。
+RMQ框架提供消息预发送、消息发送、消息确认、消息恢复、消息管理等功能，结合成熟的消息中间件，解决分布式事务，达到数据最终一致性。
+
+------------
 
 #### Maven模块描述
 
@@ -18,6 +26,9 @@
 | rmq-cms-api | 消息管理子系统服务接口、实体类封装 |
 | rmq-cms | 消息管理子系统，提供消息管理后台 |
 | rmq-dal | 数据库访问层： sql语句|
+
+------------
+
 
 
 
@@ -36,3 +47,4 @@
 1. xxxx
 2. xxxx
 3. xxxx
+
