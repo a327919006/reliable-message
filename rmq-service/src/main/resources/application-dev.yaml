@@ -1,4 +1,7 @@
+# 开发环境配置
+
 spring:
+  # 数据库连接配置
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/reliable-message?useUnicode=true&characterEncoding=utf-8
     username: root
@@ -6,12 +9,13 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     hikari:
       connection-test-query: SELECT 1
+  # ActiveMQ连接配置
   activemq:
     broker-url: tcp://127.0.0.1:61616
     user: admin
     password: admin
 
-# dubbo配置
+# Dubbo配置
 dubbo:
   application:
     name: rmq-service
