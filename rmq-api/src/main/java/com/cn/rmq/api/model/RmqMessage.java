@@ -11,7 +11,6 @@ import java.io.Serializable;
  * <p>Description:</p>
  *
  * @author Chen Nan
- * @date 2019/3/31.
  */
 @Getter
 @Setter

@@ -284,4 +284,26 @@
             </plugin>
         </plugins>
     </build>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://gitee.com/NuLiing/reliable-message</url>
+        <connection>https://gitee.com/NuLiing/reliable-message.git</connection>
+        <developerConnection>https://gitee.com/NuLiing/reliable-message</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>ChenNan</name>
+            <email>327919006@qq.com</email>
+            <url>https://gitee.com/NuLiing</url>
+        </developer>
+    </developers>
 </project>
