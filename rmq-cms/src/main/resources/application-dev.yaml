@@ -1,9 +1,10 @@
+# rmq-cms运行端口和访问根路径，可根据自身情况配置
 server:
   port: 10081
   servlet:
     context-path: /rmq-cms
 
-# dubbo配置
+# Dubbo配置
 dubbo:
   application:
     name: rmq-cms

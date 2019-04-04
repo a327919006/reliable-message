@@ -1,4 +1,4 @@
-
+# Dubbo配置
 dubbo:
   application:
     name: rmq-check
@@ -9,12 +9,14 @@ dubbo:
     base-packages: com.cn.rmq.schedule.service.impl
 
 schedule:
+  # 消息确认子系统配置
   check:
     core-pool-size: 10
     max-pool-size: 100
     keep-alive-time: 60000
     queue-capacity: 10
     wait-complete-timeout: 10000
+  # 消息恢复子系统配置
   recover:
     core-pool-size: 10
     max-pool-size: 100
