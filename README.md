@@ -1,6 +1,16 @@
 # reliable-message
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/a327919006/reliable-message/blob/master/LICENSE)
+<a target="_blank" href="https://search.maven.org/search?q=g:%22com.gitee.nuliing%22%20AND%20a:%22rmq-api%22">
+    <img src="https://img.shields.io/maven-central/v/com.gitee.nuliing/rmq-api.svg?label=Maven%20Central" ></img>
+</a>
+<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" ></img>
+</a>
+<a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
+    <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
+</a>
+
+
 
 #### 介绍
 
