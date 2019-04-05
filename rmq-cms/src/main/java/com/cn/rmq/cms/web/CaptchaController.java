@@ -27,7 +27,7 @@ public class CaptchaController {
     @RequestMapping(value = "login/captcha", method = RequestMethod.GET)
     public void captcha(HttpSession session,
                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ICaptcha captcha = CaptchaUtil.createCircleCaptcha(110, 30, 4, 10);
+        ICaptcha captcha = CaptchaUtil.createCircleCaptcha(110, 30, 4, 5);
 
         // 禁止图像缓存
         response.setHeader("Cache-Control", "no-store");

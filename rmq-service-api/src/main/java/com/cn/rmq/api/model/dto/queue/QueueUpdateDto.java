@@ -32,7 +32,7 @@ public class QueueUpdateDto implements Serializable {
     private Integer checkDuration;
 
     @NotNull
-    private Integer checkTimeout;
+    private Short checkTimeout;
 
     private String updateUser;
 }

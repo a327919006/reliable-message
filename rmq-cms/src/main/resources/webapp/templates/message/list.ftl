@@ -92,7 +92,7 @@
                 {
                     text: '<span style="color: red"><strong>查看详情（双击）</strong></span>',
                     handler: function () {
-                        var checkedRows = $('#feedback_datagrid').datagrid('getChecked');
+                        var checkedRows = $('#message_datagrid').datagrid('getChecked');
                         if (checkedRows.length <= 0) {
                             $.messager.alert('错误提示', '请选择要查看的记录', 'error');
                         } else {

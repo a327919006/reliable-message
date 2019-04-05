@@ -28,7 +28,7 @@ public class QueueAddDto implements Serializable {
     private Integer checkDuration;
 
     @NotNull
-    private Integer checkTimeout;
+    private Short checkTimeout;
 
     private String createUser;
 
