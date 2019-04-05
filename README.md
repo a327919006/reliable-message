@@ -1,6 +1,5 @@
 <p align="center">
-    <img src="https://www.showdoc.cc/server/api/common/visitfile/sign/6ab4f0dd58bd510e8c8ca94841e411f1?showdoc=.jpg" ></img>
-</p>
+    <img src="https://www.showdoc.cc/server/api/common/visitfile/sign/51a6c9fb88d79eb8adfcd4256e7f6a6e?showdoc=.jpg" ></img></p>
 <p align="center">
     <a target="_blank" href="https://search.maven.org/search?q=g:%22com.gitee.nuliing%22%20AND%20a:%22rmq-api%22">
         <img src="https://img.shields.io/maven-central/v/com.gitee.nuliing/rmq-api.svg?label=Maven%20Central" ></img>
