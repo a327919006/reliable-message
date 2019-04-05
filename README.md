@@ -1,20 +1,21 @@
-# reliable-message
+# RMQ
 
-<a target="_blank" href="https://search.maven.org/search?q=g:%22com.gitee.nuliing%22%20AND%20a:%22rmq-api%22">
-    <img src="https://img.shields.io/maven-central/v/com.gitee.nuliing/rmq-api.svg?label=Maven%20Central" ></img>
-</a>
-<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" ></img>
-</a>
-<a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
-    <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
-</a>
-
+<p align="center">
+    <a target="_blank" href="https://search.maven.org/search?q=g:%22com.gitee.nuliing%22%20AND%20a:%22rmq-api%22">
+        <img src="https://img.shields.io/maven-central/v/com.gitee.nuliing/rmq-api.svg?label=Maven%20Central" ></img>
+    </a>
+    <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" ></img>
+    </a>
+    <a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
+        <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
+    </a>
+</p>
 
 
 #### 介绍
 
-**reliable-message**（简称：RMQ）是**基于可靠消息的最终一致性**的分布式事务解决方案。文档编写中。
+**RMQ**（reliable-message-queue）是**基于可靠消息的最终一致性**的分布式事务解决方案。文档编写中。
 
 # [中文文档](https://www.showdoc.cc/rmq "中文文档")
 
