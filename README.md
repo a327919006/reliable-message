@@ -1,6 +1,8 @@
 # RMQ
 <p align="center">
-![](https://www.showdoc.cc/server/api/common/visitfile/sign/6ab4f0dd58bd510e8c8ca94841e411f1?showdoc=.jpg)
+
+![RMQ](https://www.showdoc.cc/server/api/common/visitfile/sign/6ab4f0dd58bd510e8c8ca94841e411f1?showdoc=.jpg)
+
 </p>
 <p align="center">
     <a target="_blank" href="https://search.maven.org/search?q=g:%22com.gitee.nuliing%22%20AND%20a:%22rmq-api%22">
