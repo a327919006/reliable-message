@@ -7,7 +7,7 @@
     <groupId>com.cn.rmq</groupId>
     <artifactId>reliable-message</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <modules>
         <module>rmq-api</module>
         <module>rmq-dal</module>
@@ -25,11 +25,11 @@
         <jdk.encoding>UTF-8</jdk.encoding>
 
         <!--model-->
-        <rmq-api.version>1.0</rmq-api.version>
-        <rmq-cms-api.version>1.0</rmq-cms-api.version>
-        <rmq-schedule-api.version>1.0</rmq-schedule-api.version>
-        <rmq-service-api.version>1.0</rmq-service-api.version>
-        <rmq-dal.version>1.0</rmq-dal.version>
+        <rmq-api.version>${version}</rmq-api.version>
+        <rmq-cms-api.version>${version}</rmq-cms-api.version>
+        <rmq-schedule-api.version>${version}</rmq-schedule-api.version>
+        <rmq-service-api.version>${version}</rmq-service-api.version>
+        <rmq-dal.version>${version}</rmq-dal.version>
 
         <!--spring boot-->
         <spring-boot.version>2.1.3.RELEASE</spring-boot.version>
