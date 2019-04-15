@@ -24,7 +24,7 @@ public class ThreadPoolConfig {
     @Bean
     public ThreadPoolExecutor checkExecutor() {
         // 为线程池起名
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("check-pool-%d").build();
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("check-pool-").build();
         return new ThreadPoolExecutor(checkTaskConfig.getCorePoolSize(),
                 checkTaskConfig.getMaxPoolSize(),
                 checkTaskConfig.getKeepAliveTime(),
@@ -36,7 +36,7 @@ public class ThreadPoolConfig {
     @Bean
     public ThreadPoolExecutor recoverExecutor() {
         // 为线程池起名
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("recover-pool-%d").build();
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("recover-pool-").build();
         return new ThreadPoolExecutor(recoverTaskConfig.getCorePoolSize(),
                 recoverTaskConfig.getMaxPoolSize(),
                 recoverTaskConfig.getKeepAliveTime(),
