@@ -52,5 +52,3 @@ RMQ对接示例：
 | --- | --- | --- |
 | [cn-rmq](https://gitee.com/NuLiing/reliable-message "cn-rmq") | 基于可靠消息的最终一致性方案 | 已发布 |
 | [cn-ben](https://gitee.com/NuLiing/cn-ben "cn-ben") | 最大努力通知方案 | 开发中 |
-| cn-tcc | TCC方案 | 计划中 |
-| cn-dts | 三种方案整合 | 计划中 |
