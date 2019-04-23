@@ -26,7 +26,7 @@ public class MqConfig {
      * 设置queue消息是json格式传输与解析，即消息处理器
      */
     @Bean
-    public JmsListenerContainerFactory<?> queueListenerContainer(ConnectionFactory connectionFactory) {
+    public JmsListenerContainerFactory queueListenerContainer(ConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(jacksonJmsMessageConverter());
