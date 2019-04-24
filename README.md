@@ -12,7 +12,9 @@
     <a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
         <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
     </a>
-    [![Codacy Badge](https://api.codacy.com/project/badge/Grade/26af17c01c55497e9296160ef2d13352)](https://www.codacy.com/app/a327919006/reliable-message?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=a327919006/reliable-message&amp;utm_campaign=Badge_Grade)
+    <a target="_blank" href="https://www.codacy.com/app/a327919006/reliable-message?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=a327919006/reliable-message&amp;utm_campaign=Badge_Grade">
+        <img src="https://api.codacy.com/project/badge/Grade/26af17c01c55497e9296160ef2d13352"/>
+    </a>
 </p>
 
 ------------
