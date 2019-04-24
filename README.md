@@ -12,6 +12,7 @@
     <a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
         <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
     </a>
+    [![Codacy Badge](https://api.codacy.com/project/badge/Grade/26af17c01c55497e9296160ef2d13352)](https://www.codacy.com/app/a327919006/reliable-message?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=a327919006/reliable-message&amp;utm_campaign=Badge_Grade)
 </p>
 
 ------------
@@ -21,17 +22,15 @@
 **RMQ**（reliable-message-queue）是**基于可靠消息的最终一致性**的分布式事务解决方案。
 
 # [中文文档](https://www.showdoc.cc/rmq "中文文档")
-
-##### 中文文档地址：
-- https://www.showdoc.cc/rmq
+  - 中文文档地址：[https://www.showdoc.cc/rmq](https://www.showdoc.cc/rmq "https://www.showdoc.cc/rmq")
 
 ##### RMQ对接示例：
-- https://gitee.com/NuLiing/reliable-message-samples
-- https://github.com/a327919006/reliable-message-samples
+  - [https://gitee.com/NuLiing/reliable-message-samples](https://gitee.com/NuLiing/reliable-message-samples "https://gitee.com/NuLiing/reliable-message-samples")
+  - [https://github.com/a327919006/reliable-message-samples](https://github.com/a327919006/reliable-message-samples "https://github.com/a327919006/reliable-message-samples")
 
 ## 框架定位
-- RMQ本身不生产消息队列，只是消息的搬运工。
-- RMQ框架提供消息预发送、消息发送、消息确认、消息恢复、消息管理等功能，结合成熟的消息中间件，解决分布式事务，达到数据最终一致性。
+  - RMQ本身不生产消息队列，只是消息的搬运工。
+  - RMQ框架提供消息预发送、消息发送、消息确认、消息恢复、消息管理等功能，结合成熟的消息中间件，解决分布式事务，达到数据最终一致性。
 
 ------------
 
