@@ -1,6 +1,22 @@
 language: java
 
-script: "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -f pom.xml -P dev"
+script:
+  - echo "start install rmq-api"
+  - mvn install -pl rmq-api -am -DskipTests=true -Dmaven.javadoc.skip=true -P dev -f pom.xml
+  - echo "start install rmq-cms-api"
+  - mvn install -pl rmq-cms-api -am -DskipTests=true -Dmaven.javadoc.skip=true -P dev -f pom.xml
+  - echo "start install rmq-schedule-api"
+  - mvn install -pl rmq-schedule-api -am -DskipTests=true -Dmaven.javadoc.skip=true -P dev -f pom.xml
+  - echo "start install rmq-service-api"
+  - mvn install -pl rmq-service-api -am -DskipTests=true -Dmaven.javadoc.skip=true -P dev -f pom.xml
+  - echo "start install rmq-dal"
+  - mvn install -pl rmq-dal -am -DskipTests=true -Dmaven.javadoc.skip=true -P dev -f pom.xml
+  - echo "start install rmq-cms"
+  - mvn install -pl rmq-cms -am -DskipTests=true -Dmaven.javadoc.skip=true -P dev -f pom.xml
+  - echo "start install rmq-schedule"
+  - mvn install -pl rmq-schedule -am -DskipTests=true -Dmaven.javadoc.skip=true -P dev -f pom.xml
+  - echo "start install rmq-service"
+  - mvn install -pl rmq-service -am -DskipTests=true -Dmaven.javadoc.skip=true -P dev -f pom.xml
 
 notifications:
   email: false
