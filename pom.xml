@@ -25,11 +25,11 @@
         <jdk.encoding>UTF-8</jdk.encoding>
 
         <!--model-->
-        <rmq-api.version>${version}</rmq-api.version>
-        <rmq-cms-api.version>${version}</rmq-cms-api.version>
-        <rmq-schedule-api.version>${version}</rmq-schedule-api.version>
-        <rmq-service-api.version>${version}</rmq-service-api.version>
-        <rmq-dal.version>${version}</rmq-dal.version>
+        <rmq-api.version>${project.version}</rmq-api.version>
+        <rmq-cms-api.version>${project.version}</rmq-cms-api.version>
+        <rmq-schedule-api.version>${project.version}</rmq-schedule-api.version>
+        <rmq-service-api.version>${project.version}</rmq-service-api.version>
+        <rmq-dal.version>${project.version}</rmq-dal.version>
 
         <!--spring boot-->
         <spring-boot.version>2.1.3.RELEASE</spring-boot.version>
