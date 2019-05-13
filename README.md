@@ -121,4 +121,4 @@ public void handleMsg(RmqMessage msg) {
 | 框架 | 描述 | 状态 |
 | --- | --- | --- |
 | [cn-rmq](https://gitee.com/NuLiing/reliable-message "cn-rmq") | 基于可靠消息的最终一致性方案 | 已发布 |
-| [cn-ben](https://gitee.com/NuLiing/cn-ben "cn-ben") | 最大努力通知方案 | 开发中 |
+| [cn-ben](https://gitee.com/NuLiing/cn-ben "cn-ben") | 最大努力通知方案 | 已发布 |
