@@ -2,7 +2,7 @@
 <configuration>
 
     <property name="logback.logdir" value="./logs"/>
-    <property name="logback.appname" value="rmq-cms"/>
+    <property name="logback.appname" value="${artifactId}"/>
 
     <!-- 彩色日志 -->
     <!-- 彩色日志依赖的渲染类 -->
@@ -56,7 +56,5 @@
         <appender-ref ref="fileInfoLog" />
         <appender-ref ref="fileErrorLog" />
     </root>
-
-    <logger name="io.swagger.models.parameters.AbstractSerializableParameter" level="OFF"/>
 
 </configuration>

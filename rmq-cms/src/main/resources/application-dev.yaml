@@ -2,12 +2,12 @@
 server:
   port: 10081
   servlet:
-    context-path: /rmq-cms
+    context-path: /${artifactId}
 
 # Dubbo配置
 dubbo:
   application:
-    name: rmq-cms
+    name: ${artifactId}
     logger: slf4j
   registry:
     address: zookeeper://127.0.0.1:2181

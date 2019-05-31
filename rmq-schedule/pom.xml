@@ -5,7 +5,7 @@
     <parent>
         <artifactId>reliable-message</artifactId>
         <groupId>com.cn.rmq</groupId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -49,12 +49,11 @@
         <dependency>
             <groupId>com.cn.rmq</groupId>
             <artifactId>rmq-schedule-api</artifactId>
-            <version>${rmq-schedule-api.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>rmq-schedule</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

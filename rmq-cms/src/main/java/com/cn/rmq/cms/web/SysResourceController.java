@@ -11,7 +11,6 @@ import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,7 +70,7 @@ public class SysResourceController {
             SysResource resource = new SysResource();
             BeanUtils.copyProperties(model, resource);
             resource.setResourceId(IdUtil.simpleUUID());
-            resource.setCreateTime(new Date());
+            resource.setCreateTime(LocalDateTime.now());
             sysResourceService.insertSelective(resource);
             BeanUtils.copyProperties(resource, model);
             rspBase.code(Constants.CODE_SUCCESS).msg("新增成功").data(model);
@@ -137,7 +136,7 @@ public class SysResourceController {
         model.setUpdateUser(sysUser.getUserName());
 
         BeanUtils.copyProperties(model, resource, IGNORES);
-        resource.setUpdateTime(new Date());
+        resource.setUpdateTime(LocalDateTime.now());
         sysResourceService.updateByPrimaryKey(resource);
         BeanUtils.copyProperties(resource, model);
         rspBase.code(Constants.CODE_SUCCESS).msg("修改成功").data(model);

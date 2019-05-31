@@ -1,11 +1,9 @@
 package com.cn.rmq.api.cms.model.po;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class RoleResource implements Serializable {
@@ -15,7 +13,7 @@ public class RoleResource implements Serializable {
 
     private String resourceId;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 }

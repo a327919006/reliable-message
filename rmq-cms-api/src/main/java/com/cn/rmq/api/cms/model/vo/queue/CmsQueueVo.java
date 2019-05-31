@@ -1,13 +1,10 @@
 package com.cn.rmq.api.cms.model.vo.queue;
 
-import com.cn.rmq.api.utils.json.serializer.DateTimeSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * <p>Title:</p>
@@ -38,6 +35,4 @@ public class CmsQueueVo implements Serializable {
     private String createUser;
 
     private String updateUser;
-
-
 }

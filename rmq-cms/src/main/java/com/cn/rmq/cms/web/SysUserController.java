@@ -19,8 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -70,8 +70,8 @@ public class SysUserController {
             BeanUtils.copyProperties(model, newUser);
             newUser.setSysUserId(IdUtil.simpleUUID());
             newUser.setUserPwd(SecureUtil.md5(newUser.getUserPwd()));
-            newUser.setCreateTime(new Date());
-            newUser.setUpdateTime(new Date());
+            newUser.setCreateTime(LocalDateTime.now());
+            newUser.setUpdateTime(LocalDateTime.now());
             sysUserService.insertSelective(newUser);
             BeanUtils.copyProperties(newUser, model);
             rspBase.code(Constants.CODE_SUCCESS).msg("新增成功").data(model);
@@ -131,7 +131,7 @@ public class SysUserController {
         model.setUpdateUser(sysUser.getUserName());
 
         BeanUtils.copyProperties(model, user, IGNORES);
-        user.setUpdateTime(new Date());
+        user.setUpdateTime(LocalDateTime.now());
         sysUserService.updateByPrimaryKeySelective(user);
         BeanUtils.copyProperties(user, model);
         rspBase.code(Constants.CODE_SUCCESS).msg("修改成功").data(model);
@@ -172,7 +172,7 @@ public class SysUserController {
             log.info("应答内容：" + rspBase);
         } else {
             sysUser.setUserPwd(SecureUtil.md5(newPwd));
-            sysUser.setUpdateTime(new Date());
+            sysUser.setUpdateTime(LocalDateTime.now());
             sysUserService.updateByPrimaryKeySelective(sysUser);
             rspBase.code(Constants.CODE_SUCCESS).msg("修改密码成功，请重新登录");
             request.getSession().removeAttribute(Constants.SESSION_USER);

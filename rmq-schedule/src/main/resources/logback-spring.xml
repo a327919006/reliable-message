@@ -2,7 +2,7 @@
 <configuration>
 
     <property name="logback.logdir" value="./logs"/>
-    <property name="logback.appname" value="rmq-schedule"/>
+    <property name="logback.appname" value="${artifactId}"/>
 
     <!-- 彩色日志 -->
     <!-- 彩色日志依赖的渲染类 -->

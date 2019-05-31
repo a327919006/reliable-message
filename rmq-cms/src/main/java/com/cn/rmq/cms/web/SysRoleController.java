@@ -17,8 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,7 +71,7 @@ public class SysRoleController {
         SysRole newRole = new SysRole();
         BeanUtils.copyProperties(model, newRole);
         newRole.setRoleId(IdUtil.simpleUUID());
-        newRole.setCreateTime(new Date());
+        newRole.setCreateTime(LocalDateTime.now());
         sysRoleService.insert(newRole);
         rspBase.code(Constants.CODE_SUCCESS).msg("新增成功").data(newRole);
         log.info("应答内容：" + rspBase);
@@ -125,7 +125,7 @@ public class SysRoleController {
         model.setUpdateUser(sysUser.getUserName());
 
         BeanUtils.copyProperties(model, role, IGNORES);
-        role.setUpdateTime(new Date());
+        role.setUpdateTime(LocalDateTime.now());
         sysRoleService.updateByPrimaryKeySelective(role);
         BeanUtils.copyProperties(role, model);
         rspBase.code(Constants.CODE_SUCCESS).msg("修改成功").data(model);

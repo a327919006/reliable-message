@@ -18,7 +18,7 @@ spring:
 # Dubbo配置
 dubbo:
   application:
-    name: rmq-service
+    name: ${artifactId}
     logger: slf4j
   registry:
     address: zookeeper://127.0.0.1:2181

@@ -17,8 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -153,7 +153,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, 
                 userRole.setId(IdUtil.simpleUUID());
                 userRole.setSysUserId(userId);
                 userRole.setRoleId(roleId);
-                userRole.setCreateTime(new Date());
+                userRole.setCreateTime(LocalDateTime.now());
                 sysUserRoleMapper.insert(userRole);
                 ret++;
             }
