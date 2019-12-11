@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://www.showdoc.cc/server/api/common/visitfile/sign/51a6c9fb88d79eb8adfcd4256e7f6a6e?showdoc=.jpg" ></img>
+<img src="https://images.gitee.com/uploads/images/2019/1211/141859_3eed102c_1588475.png" ></img>
 </p>
 
 <p align="center">
@@ -22,6 +22,8 @@
 #### 介绍
 
 **RMQ**（reliable-message-queue）是**基于可靠消息的最终一致性**的分布式事务解决方案。
+
+如果感觉有帮助，帮忙点个star！
 
 # [中文文档](https://www.showdoc.cc/rmq "中文文档")
 - 中文文档地址：[https://www.showdoc.cc/rmq](https://www.showdoc.cc/rmq "https://www.showdoc.cc/rmq")
