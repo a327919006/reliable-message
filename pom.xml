@@ -44,7 +44,7 @@
         <dubbo.version>2.7.0</dubbo.version>
 
         <!--guava-->
-        <guava.version>27.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
 
         <!--shiro-->
         <shiro.version>1.4.0</shiro.version>
