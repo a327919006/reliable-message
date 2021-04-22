@@ -47,7 +47,7 @@
         <guava.version>27.1-jre</guava.version>
 
         <!--shiro-->
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.7.0</shiro.version>
 
         <!-- plugins -->
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
