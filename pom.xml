@@ -33,7 +33,7 @@
         <!-- main -->
         <mybatis-generator-core.version>1.3.7</mybatis-generator-core.version>
         <mybatis-typehandlers.version>1.0.2</mybatis-typehandlers.version>
-        <mysql-connector-java.versioin>8.0.20</mysql-connector-java.versioin>
+        <mysql-connector-java.versioin>8.0.28</mysql-connector-java.versioin>
         <lombok.versioin>1.18.6</lombok.versioin>
         <hutool.version>4.5.3</hutool.version>
 
